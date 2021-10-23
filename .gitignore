@@ -9,7 +9,7 @@ capybara-*.html
 *.orig
 rerun.txt
 pickle-email-*.html
-package-lock.json
+client/package-lock.json
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
