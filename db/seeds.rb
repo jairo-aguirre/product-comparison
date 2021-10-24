@@ -8,7 +8,6 @@
 
 require './db/categories-decoded'
 require './db/products-decoded'
-
 @categories_unique.each do |category|
   Category.create!(
     
