@@ -9,14 +9,15 @@
 require './db/categories-decoded'
 require './db/products-decoded'
 
-
-  cat1 = Category.create(
-    name: 'Shoes'
+@categories_unique.each do |category|
+  Category.create(
+    id: category[:id],
+    name: category[:name]
     )
-
+end
 
 @products_array.each do |product|
-  cat1.products.create!(
+  Product.create(
     id: product[:id],
     name: product[:name],
     description: product[:description],
@@ -25,5 +26,6 @@ require './db/products-decoded'
     rating: product[:rating],
     sale: product[:sale],
     url: product[:url],
+    category_id: product[:category_id]
   )
 end
