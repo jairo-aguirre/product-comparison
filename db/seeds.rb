@@ -12,6 +12,9 @@ require './db/data/magic-mens-clothing-details'
 require './db/data/magic-computer-details'
 require './db/data/magic-shoes-details'
 require './db/data/magic-womens-clothing-details'
+require './db/data/target-electronics-details'
+require './db/data/target-mens-details'
+require './db/data/target-womens-details'
 
 #cat1 is shoes
 Category.create!(name: "Shoes")
@@ -90,6 +93,48 @@ end
 end
 
 @magic_womens.each do |product|
+
+  cat4.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@target_electronics.each do |product|
+
+  cat3.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@target_mens.each do |product|
+
+  cat2.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@target_womens.each do |product|
 
   cat4.products.create!(
     name: product[:name],
