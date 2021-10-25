@@ -6,27 +6,35 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-require './db/categories-decoded'
-require './db/products-decoded'
+require './db/data/categories-decoded'
+require './db/data/products-decoded'
+require './db/data/magic-mens-clothing-details'
+require './db/data/magic-computer-details'
+require './db/data/magic-shoes-details'
+require './db/data/magic-womens-clothing-details'
 
-@categories_unique.each do |category|
-  Category.create!(
-    
-    name: category[:name]
-    )
-end
+#cat1 is shoes
+Category.create!(name: "Shoes")
 
-cat1 = Category.find_or_create_by! id: 1
-cat2 = Category.find_or_create_by! id: 2
-cat3 = Category.find_or_create_by! id: 3
-cat4 = Category.find_or_create_by! id: 4
+#cat 2 is mens clothing
+Category.create!(name: "Men's Clothing")
+
+Category.create!(name: "Electronics")
+
+Category.create!(name: "Women's Clothing")
+
+cat1 = Category.find_or_create_by! name: "Shoes"
+cat2 = Category.find_or_create_by! name: "Men's Clothing"
+cat3 = Category.find_or_create_by! name: "Electronics"
+cat4 = Category.find_or_create_by! name: "Women's Clothing"
 cat5 = Category.find_or_create_by! id: 5
 cat6 = Category.find_or_create_by! id: 6
 cat7 = Category.find_or_create_by! id: 7
 
 
-@products_modified.each do |product|
-  if product[:category_id] = 1
+#asos shoes
+@asos_shoes.each do |product|
+  
   cat1.products.create!(
     name: product[:name],
     description: product[:description],
@@ -35,80 +43,62 @@ cat7 = Category.find_or_create_by! id: 7
     rating: product[:rating],
     sale: product[:sale],
     url: product[:url]
-    
   )
-  end
-  if product[:category_id] = 2
-    cat2.products.create!(
-      name: product[:name],
-      description: product[:description],
-      image: product[:image],
-      price_cents: product[:price_cents],
-      rating: product[:rating],
-      sale: product[:sale],
-      url: product[:url]
-      
-    )
-    end
-    if product[:category_id] = 3
-      cat3.products.create!(
-        name: product[:name],
-        description: product[:description],
-        image: product[:image],
-        price_cents: product[:price_cents],
-        rating: product[:rating],
-        sale: product[:sale],
-        url: product[:url]
-        
-      )
-      end
-      if product[:category_id] = 4
-        cat4.products.create!(
-          name: product[:name],
-          description: product[:description],
-          image: product[:image],
-          price_cents: product[:price_cents],
-          rating: product[:rating],
-          sale: product[:sale],
-          url: product[:url]
-          
-        )
-        end
-        if product[:category_id] = 5
-          cat5.products.create!(
-            name: product[:name],
-            description: product[:description],
-            image: product[:image],
-            price_cents: product[:price_cents],
-            rating: product[:rating],
-            sale: product[:sale],
-            url: product[:url]
-            
-          )
-          end
-          if product[:category_id] = 6
-            cat6.products.create!(
-              name: product[:name],
-              description: product[:description],
-              image: product[:image],
-              price_cents: product[:price_cents],
-              rating: product[:rating],
-              sale: product[:sale],
-              url: product[:url]
-              
-            )
-            end
-            if product[:category_id] = 7
-              cat7.products.create!(
-                name: product[:name],
-                description: product[:description],
-                image: product[:image],
-                price_cents: product[:price_cents],
-                rating: product[:rating],
-                sale: product[:sale],
-                url: product[:url]
-                
-              )
-              end
   
+end
+
+@magic_mens_clothing.each do |product|
+
+  cat2.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@magic_computers_details.each do |product|
+
+  cat3.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@magic_shoes.each do |product|
+
+  cat1.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
+end
+
+@magic_womens.each do |product|
+
+  cat4.products.create!(
+    name: product[:name],
+    description: product[:description],
+    image: product[:image],
+    price_cents: product[:price_cents],
+    rating: product[:rating],
+    sale: product[:sale],
+    url: product[:url]
+  )
+
 end
