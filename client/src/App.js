@@ -3,8 +3,13 @@ import axios from "axios";
 import "./App.css";
 import Product from "./components/Product";
 import Category from "./components/Category";
+import Navbar from "./components/Navbar";
 export default function Application(props) {
-  const [state, setState] = useState({ products: [], categories: [] });
+  const [state, setState] = useState({
+    products: [],
+    categories: [],
+    searchValue: "",
+  });
   useEffect(() => {
     const URL1 = "http://localhost:3000/";
     const URL2 = "http://localhost:3000/categories/";
@@ -32,12 +37,14 @@ export default function Application(props) {
     return <Category key={category.id} id={category.id} name={category.name} />;
   });
   return (
-    <div className="container">
-      <h1>Products</h1>
-      <hr />
-      <br></br>
-      <div className="row">{categoryArray}</div>
-      <div className="row">{productArray}</div>
+    <div>
+      <div>
+        <Navbar />
+      </div>
+      <div className="container">
+        <div className="row">{categoryArray}</div>
+        <div className="row">{productArray}</div>
+      </div>
     </div>
   );
 }
