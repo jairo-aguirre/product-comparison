@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { getProductsForCategory } from "./helper/selector";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
@@ -9,7 +10,13 @@ export default function Application(props) {
     products: [],
     categories: [],
     searchValue: "",
+    catSelected: 1,
   });
+  const handleChange = (catSelected) => {
+    //set selection to the value selected
+    setState((prev) => ({ ...prev, catSelected }));
+  };
+
   useEffect(() => {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
@@ -22,7 +29,7 @@ export default function Application(props) {
       setState((prev) => ({ ...prev, products, categories }));
     });
   }, []);
-  const firstset = state.products.slice(100, 300);
+  const firstset = getProductsForCategory(state.products, state.catSelected);
   const productArray = firstset.map((product) => {
     return (
       <Product
@@ -30,19 +37,28 @@ export default function Application(props) {
         id={product.id}
         name={product.name}
         image={product.image}
+        description={product.description}
+        price_cents={product.price_cents}
+        rating={product.rating}
+        sale={product.sale}
+        url={product.url}
+        category_id={product.category_id}
       />
     );
   });
-  const categoryArray = state.categories.map((category) => {
-    return <Category key={category.id} id={category.id} name={category.name} />;
-  });
+
   return (
     <div>
       <div>
         <Navbar searchValue={state.searchValue} />
+        <Category
+          categories={state.categories}
+          catSelected={state.catSelected}
+          handleChange={handleChange}
+        ></Category>
       </div>
       <div className="container">
-        <div className="row">{categoryArray}</div>
+        {/* <div className="row">{categoryArray}</div> */}
         <div className="row">{productArray}</div>
       </div>
     </div>
