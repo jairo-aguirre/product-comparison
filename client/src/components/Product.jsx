@@ -2,7 +2,7 @@ export default function Product(props) {
   return (
     <div className="col">
       <div className="card">
-        <img src={`https://${props.image}`} className="first-image" alt="" />
+        <img src={props.image} className="first-image" alt="" />
         <div className="card-body">
           <hr />
           <center>

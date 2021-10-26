@@ -43,9 +43,8 @@ export default function Navbar(props) {
           PriceCompare
         </Typography>
         <SearchBar
-          value={this.state.value}
-          onChange={(newValue) => this.setState({ value: newValue })}
-          onRequestSearch={() => doSomethingWith(this.state.value)}
+          value={props.searchValue}
+          // onRequestSearch={() => doSomethingWith(this.state.value)}
         />
         <Button color="inherit">Signup</Button>
       </Toolbar>

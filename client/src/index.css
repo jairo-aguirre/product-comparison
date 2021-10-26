@@ -57,7 +57,7 @@ h1 {
   transition: all 1s ease-in-out;
 }
 
-.card-body a {
+.card-body .card-title {
   visibility: hidden;
 }
 
@@ -73,7 +73,7 @@ h1 {
   transform: scale(1.02);
 }
 
-.card:hover > .card-body > a {
+.card:hover > .card-body .card-title {
   visibility: visible;
 }
 

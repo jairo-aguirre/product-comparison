@@ -11,8 +11,8 @@ export default function Application(props) {
     searchValue: "",
   });
   useEffect(() => {
-    const URL1 = "http://localhost:3000/";
-    const URL2 = "http://localhost:3000/categories/";
+    const URL1 = "/api/products";
+    const URL2 = "/api/categories";
     Promise.all([axios.get(URL1), axios.get(URL2)]).then((all) => {
       console.log(all);
       const [first, second] = all;
@@ -22,7 +22,7 @@ export default function Application(props) {
       setState((prev) => ({ ...prev, products, categories }));
     });
   }, []);
-  const firstset = state.products.slice(0, 10);
+  const firstset = state.products.slice(100, 300);
   const productArray = firstset.map((product) => {
     return (
       <Product
@@ -39,7 +39,7 @@ export default function Application(props) {
   return (
     <div>
       <div>
-        <Navbar />
+        <Navbar searchValue={state.searchValue} />
       </div>
       <div className="container">
         <div className="row">{categoryArray}</div>
