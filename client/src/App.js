@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import Product from "./components/Product";
 import Category from "./components/Category";
+import Button from "./components/Button";
+
 export default function Application(props) {
   const [state, setState] = useState({ products: [], categories: [] });
   const [selectedProductIDs, setSelectedProductIDs] = useState([]);
-  
+  let history = useHistory();
+
   const addProdIDs = (id) => {
     setSelectedProductIDs((prev) => {
       return [...prev, id];
     });
   }
-  console.log('HERE', selectedProductIDs);
   
   const removeProdIDs = (id) => {
     setSelectedProductIDs((prev) => {
@@ -35,6 +38,7 @@ export default function Application(props) {
     });
   }, []);
   const firstset = state.products.slice(0, 4);
+
   const productArray = firstset.map((product) => {
     return (
       <Product
@@ -47,9 +51,18 @@ export default function Application(props) {
       />
     );
   });
+
   const categoryArray = state.categories.map((category) => {
     return <Category key={category.id} id={category.id} name={category.name} />;
   });
+
+  const handleClick = () => {
+    history.push({
+      pathname: '/comparison',
+      selectedIDs: selectedProductIDs
+    });
+  };
+
   return (
     <div className="container">
       <h1>Products</h1>
@@ -57,7 +70,7 @@ export default function Application(props) {
       <br></br>
       {/* <div className="row">{categoryArray}</div> */}
       <div className="row">{productArray}</div>
-      <button>Compare</button>
+      <Button onClick={handleClick}>Compare</Button>
     </div>
   );
 }

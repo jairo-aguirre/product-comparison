@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
+import Comparison from './components/Comparison';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+        <Switch>
+          <Route path="/comparison" component={Comparison}/>
+          <Route path="/" component={App}/>
+        </Switch>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
