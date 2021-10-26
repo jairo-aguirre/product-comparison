@@ -5,6 +5,23 @@ import Product from "./components/Product";
 import Category from "./components/Category";
 export default function Application(props) {
   const [state, setState] = useState({ products: [], categories: [] });
+  const [selectedProductIDs, setSelectedProductIDs] = useState([]);
+  
+  const addProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      return [...prev, id];
+    });
+  }
+  console.log('HERE', selectedProductIDs);
+  
+  const removeProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      const index = prev.findIndex((e) => e === id);
+      prev.splice(index, 1);
+      return prev;
+    });
+  }
+  
   useEffect(() => {
     const URL1 = "http://localhost:3000/";
     const URL2 = "http://localhost:3000/categories/";
@@ -17,7 +34,7 @@ export default function Application(props) {
       setState((prev) => ({ ...prev, products, categories }));
     });
   }, []);
-  const firstset = state.products.slice(0, 10);
+  const firstset = state.products.slice(0, 4);
   const productArray = firstset.map((product) => {
     return (
       <Product
@@ -25,6 +42,8 @@ export default function Application(props) {
         id={product.id}
         name={product.name}
         image={product.image}
+        addProdIDs={addProdIDs}
+        removeProdIDs={removeProdIDs}
       />
     );
   });
@@ -36,8 +55,9 @@ export default function Application(props) {
       <h1>Products</h1>
       <hr />
       <br></br>
-      <div className="row">{categoryArray}</div>
+      {/* <div className="row">{categoryArray}</div> */}
       <div className="row">{productArray}</div>
+      <button>Compare</button>
     </div>
   );
 }
