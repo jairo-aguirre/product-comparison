@@ -18,4 +18,49 @@ end
 
 puts @target_electronics
 
+#puts @target_electronics
+
+@target_electronics_features = []
+electronics.each do |product|
+  
+  @target_electronics_features.push(product["data"]["product"]["item"]["merchandise_type_attributes"]) 
+
+end
+
+#puts @target_electronics_features
+@target_elec_array = []
+
+@target_electronics_features.each do |product|
+  product.each do |attribute|
+    target_elec_object = {}
+    if attribute["name"] == "Color Family"
+      values = attribute["values"][0]
+      target_elec_object["color"] = values["name"]
+      @target_elec_array.push(target_elec_object)
+    end
+    if attribute["name"] == "Product Weight"
+      values = attribute["values"][0]
+      target_elec_object["weight"] = values["name"]
+      @target_elec_array.push(target_elec_object)
+    end
+    if attribute["name"] == "electronics subtype"
+      values = attribute["values"][0]
+      target_elec_object["sub category"] = values["name"]
+      @target_elec_array.push(target_elec_object)
+    end
+    if attribute["name"] == "Item Type"
+      values = attribute["values"][0]
+      target_elec_object["type"] = values["name"]
+      @target_elec_array.push(target_elec_object)
+    end
+    if attribute["name"] == "Targeted Audience"
+      values = attribute["values"][0]
+      target_elec_object["audience"] = values["name"]
+      @target_elec_array.push(target_elec_object)
+    end
+  end
+end
+
+puts @target_elec_array
+
 #has bullet descriptions/classification

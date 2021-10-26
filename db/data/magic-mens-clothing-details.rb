@@ -17,4 +17,40 @@ mens_clothing.each do |product|
   
 end
 
-puts @magic_mens_clothing
+#puts @magic_mens_clothing
+
+@magic_mens_clothing_features = []
+skuList = []
+mens_clothing.each do |product|
+ skuList.push(product["metadata"]["specsModule"]["props"])
+end
+
+#puts skuList[0]
+@magic_mens_clothing_features = []
+skuList.each do |product|
+  puts "new"
+  magic_computer_obj = {}
+  product.each do |attribute|
+    puts "attr"
+    
+    if attribute["attrName"] == "ItemType"
+      magic_computer_obj["type"] = attribute["attrValue"]
+    end
+    if attribute["attrName"] == "Colour"
+      magic_computer_obj["color"] = attribute["attrValue"]
+    end
+    if attribute["attrName"] == "Material"
+      magic_computer_obj["material"] = attribute["attrValue"]
+    end
+    if attribute["attrName"] == "PatternType"
+      magic_computer_obj["pattern"] = attribute["attrValue"]
+    end
+    
+    
+  end
+  
+  @magic_mens_clothing_features.push(magic_computer_obj)
+  
+end
+
+puts @magic_mens_clothing_features
