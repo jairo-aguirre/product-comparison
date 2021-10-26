@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import { getProductsForCategory } from "./helper/selector";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
+import Button from "./components/Button";
+
 export default function Application(props) {
   const [state, setState] = useState({
     products: [],
@@ -12,11 +15,29 @@ export default function Application(props) {
     searchValue: "",
     catSelected: 1,
   });
+  
   const handleChange = (catSelected) => {
     //set selection to the value selected
     setState((prev) => ({ ...prev, catSelected }));
   };
+  
+  const [selectedProductIDs, setSelectedProductIDs] = useState([]);
+  const history = useHistory();
 
+  const addProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      return [...prev, id];
+    });
+  }
+  
+  const removeProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      const index = prev.findIndex((e) => e === id);
+      prev.splice(index, 1);
+      return prev;
+    });
+  }
+  
   useEffect(() => {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
@@ -43,9 +64,18 @@ export default function Application(props) {
         sale={product.sale}
         url={product.url}
         category_id={product.category_id}
+        addProdIDs={addProdIDs}
+        removeProdIDs={removeProdIDs}
       />
     );
   });
+  
+  const handleClick = () => {
+    history.push({
+      pathname: '/comparison',
+      selectedIDs: selectedProductIDs
+    });
+  };
 
   return (
     <div>
@@ -58,8 +88,8 @@ export default function Application(props) {
         ></Category>
       </div>
       <div className="container">
-        {/* <div className="row">{categoryArray}</div> */}
         <div className="row">{productArray}</div>
+        <Button onClick={handleClick}>Compare</Button>
       </div>
     </div>
   );
