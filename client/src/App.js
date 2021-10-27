@@ -50,7 +50,9 @@ export default function Application(props) {
       setState((prev) => ({ ...prev, products, categories }));
     });
   }, []);
+
   const firstset = getProductsForCategory(state.products, state.catSelected);
+  
   const productArray = firstset.map((product) => {
     return (
       <Product

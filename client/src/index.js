@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import Comparison from './components/Comparison';
+import ProductDetail from './components/ProductDetail';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
         <Switch>
+          {/* <Route path="/products/:id" component={ProductDetail}/> */}
           <Route path="/comparison" component={Comparison}/>
           <Route path="/" component={App}/>
         </Switch>
