@@ -16,4 +16,4 @@ shoes.each do |product|
   
 end
 
-puts @magic_shoes
+puts @magic_shoes.count + 88
