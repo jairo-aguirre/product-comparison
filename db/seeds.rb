@@ -41,7 +41,7 @@ cat4 = Category.find_or_create_by! name: "Women's Clothing"
   cat1.products.create!(
     name: product[:name],
     description: product[:description],
-    image: product[:image],
+    image: "https://"+product[:image],
     price_cents: product[:price_cents],
     rating: product[:rating],
     sale: product[:sale],
