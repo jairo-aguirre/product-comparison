@@ -7,3 +7,13 @@ export function getProductsForCategory(products, catSelected) {
   }
   return [];
 }
+export function createSearchlist(products) {
+  const searcharray = products.map((product) => ({
+    id: product.id,
+    name: product.name.split(" ", 3),
+  }));
+  if (searcharray.length > 0) {
+    return searcharray;
+  }
+  return [];
+}

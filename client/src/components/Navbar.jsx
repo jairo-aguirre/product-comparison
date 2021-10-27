@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -41,10 +42,21 @@ export default function Navbar(props) {
         <Typography variant="h6" className={classes.title}>
           PriceCompare
         </Typography>
+
         <SearchBar
-          value={props.searchValue}
-          // onRequestSearch={() => doSomethingWith(this.state.value)}
+          dataSource={state.dataSource}
+          onChange={(value) =>
+            setState({
+              dataSource: [value, value + value, value + value + value],
+            })
+          }
+          onRequestSearch={() => console.log("onRequestSearch")}
+          style={{
+            margin: "0 auto",
+            maxWidth: 800,
+          }}
         />
+
         <Button color="inherit">Signup</Button>
       </Toolbar>
     </AppBar>

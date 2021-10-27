@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
-import { getProductsForCategory } from "./helper/selector";
+import { getProductsForCategory, createSearchlist } from "./helper/selector";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
@@ -9,7 +9,7 @@ export default function Application(props) {
   const [state, setState] = useState({
     products: [],
     categories: [],
-    searchValue: "",
+    searchArray: [],
     catSelected: 1,
   });
   const handleChange = (catSelected) => {
@@ -25,8 +25,8 @@ export default function Application(props) {
       const [first, second] = all;
       const products = first.data.products;
       const categories = second.data.categories;
-      console.log(categories);
-      setState((prev) => ({ ...prev, products, categories }));
+      const searchArray = createSearchlist(categories, products);
+      setState((prev) => ({ ...prev, products, categories, searchArray }));
     });
   }, []);
   const firstset = getProductsForCategory(state.products, state.catSelected);
@@ -50,7 +50,7 @@ export default function Application(props) {
   return (
     <div>
       <div>
-        <Navbar searchValue={state.searchValue} />
+        <Navbar searchArray={state.searchArray} />
         <Category
           categories={state.categories}
           catSelected={state.catSelected}
