@@ -1,7 +1,7 @@
 require 'rest-client'
 require 'json'
-require './asos-womens-products'
-@asos_womens_clothing = []
+require './asos-mens-products2'
+@asos_mens_clothing = []
 
 #needs new auth then it's good
 puts @product_ids
@@ -10,16 +10,16 @@ puts @product_ids
 
 
 
-#  rm = RestClient.get(
+#rm = RestClient.get(
   url.strip,
 headers={
   'x-rapidapi-host': 'asos2.p.rapidapi.com',
-  'x-rapidapi-key': '85cb3c3da5msh1736a5f390ea368p159ccejsn0b9cde09d29b'
+  'x-rapidapi-key': 'a233dd59b2msh09f3af891b33d38p152d83jsnd05a3450eee0'
 })
 
 rm_array = JSON.parse(rm)
 
-@asos_womens_clothing.push(rm_array)
+@asos_mens_clothing.push(rm_array)
 end
 
-#File.open("asos-womens-clothing.rb", "w"){ |f| f.write @asos_womens_clothing }
+#File.open("asos-mens-details.rb", "w"){ |f| f.write @asos_mens_clothing }

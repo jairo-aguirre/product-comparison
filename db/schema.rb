@@ -32,8 +32,24 @@ ActiveRecord::Schema.define(version: 2021_10_24_032421) do
 
   create_table "features", force: :cascade do |t|
     t.bigint "product_id"
-    t.string "feature_name"
-    t.string "feature_value"
+    t.string "season"
+    t.string "material"
+    t.string "material1"
+    t.string "material2"
+    t.string "material3"
+    t.string "material4"
+    t.string "sleeveLength"
+    t.string "where"
+    t.string "typeOf"
+    t.string "pattern"
+    t.string "brand"
+    t.string "screenSize"
+    t.string "weight"
+    t.string "RAM"
+    t.string "storage"
+    t.string "operatingSystem"
+    t.string "resolution"
+    t.string "fabric"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["product_id"], name: "index_features_on_product_id"
@@ -64,6 +80,5 @@ ActiveRecord::Schema.define(version: 2021_10_24_032421) do
 
   add_foreign_key "comparisons", "products"
   add_foreign_key "comparisons", "users"
-  add_foreign_key "features", "products"
   add_foreign_key "products", "categories"
 end

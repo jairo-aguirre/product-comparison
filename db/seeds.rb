@@ -7,15 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-require './db/data/categories-decoded'
 require './db/data/products-decoded'
+require './db/data/asos-mens-details'
+require './db/data/asos-womens-details2'
 require './db/data/magic-mens-clothing-details'
-require './db/data/magic-computer-details'
+require './db/data/magic-computers-details2'
 require './db/data/magic-shoes-details'
-require './db/data/magic-womens-clothing-details'
-require './db/data/target-electronics-details'
-require './db/data/target-mens-details'
-require './db/data/target-womens-details'
+require './db/data/magic-womens-details2'
+require './db/data/target-comp-details2'
+require './db/data/target-mens-details2'
+require './db/data/target-womens-details2'
 
 #cat1 is shoes
 Category.create!(name: "Shoes")
@@ -31,12 +32,10 @@ cat1 = Category.find_or_create_by! name: "Shoes"
 cat2 = Category.find_or_create_by! name: "Men's Clothing"
 cat3 = Category.find_or_create_by! name: "Electronics"
 cat4 = Category.find_or_create_by! name: "Women's Clothing"
-cat5 = Category.find_or_create_by! id: 5
-cat6 = Category.find_or_create_by! id: 6
-cat7 = Category.find_or_create_by! id: 7
 
 
-#asos shoes
+
+
 @asos_shoes.each do |product|
   
   cat1.products.create!(
@@ -47,9 +46,11 @@ cat7 = Category.find_or_create_by! id: 7
     rating: product[:rating],
     sale: product[:sale],
     url: product[:url]
+    
   )
   
 end
+
 
 @magic_mens_clothing.each do |product|
 
@@ -93,7 +94,7 @@ end
 
 end
 
-@magic_womens.each do |product|
+@magic_womens_clothing.each do |product|
 
   cat4.products.create!(
     name: product[:name],
@@ -148,4 +149,101 @@ end
   )
 
 end
+
+@magic_mens_clothing_features.each do |product|
+  
+  Feature.create!(
+    product_id: product[:product_id],
+    season: product["season"],
+    material: product["material"],
+    sleeveLength: product["sleeveLength"],
+    where: product["where"],
+    typeOf: product["type"],
+    pattern: product["pattern"]
+  )
+
+end
+
+@magic_comp_features.each do |product|
+  Feature.create!(
+    product_id: product[:product_id],
+    brand: product["brand"],
+    RAM: product["RAM"],
+    storage: product["storage"],
+    where: product["where"],
+    typeOf: product["type"],
+    weight: product["weight"],
+    operatingSystem: product["operatingSystem"],
+    screenSize: product["screenSize"],
+    resolution: product["resolution"]
+  )
+end
+
+@magic_womens_clothing_features.each do |product|
+  Feature.create!(
+    product_id: product[:product_id],
+    season: product["season"],
+    material: product["material"],
+    sleeveLength: product["sleeveLength"],
+    where: product["where"],
+    typeOf: product["type"],
+    pattern: product["pattern"],
+    fabric: product["fabric"]
+  )
+end
+
+@target_elec_array.each do |product|
+  Feature.create!(
+    product_id: product[:product_id],
+    brand: product["brand"],
+    RAM: product["RAM"],
+    storage: product["storage"],
+    where: product["where"],
+    typeOf: product["type"],
+    weight: product["weight"],
+    operatingSystem: product["operatingSystem"],
+    screenSize: product["screenSize"],
+    resolution: product["resolution"]
+  )
+end
+
+@target_mens_array.each do |product|
+  Feature.create!(
+    product_id: product[:product_id],
+    season: product["season"],
+    material: product["material"],
+    sleeveLength: product["sleeveLength"],
+    where: product["where"],
+    typeOf: product["type"],
+    pattern: product["pattern"],
+    fabric: product["fabric"],
+    material1: ["material1"],
+    material2: ["material2"],
+    material3: ["material3"],
+    material4: ["material4"]
+  )
+end
+
+@target_womens_array.each do |product|
+  Feature.create!(
+    product_id: product[:product_id],
+    season: product["season"],
+    material: product["material"],
+    sleeveLength: product["sleeveLength"],
+    where: product["where"],
+    typeOf: product["type"],
+    pattern: product["pattern"],
+    fabric: product["fabric"],
+    material1: ["material1"],
+    material2: ["material2"],
+    material3: ["material3"],
+    material4: ["material4"]
+  )
+end
+
+
+
+
+
+
 

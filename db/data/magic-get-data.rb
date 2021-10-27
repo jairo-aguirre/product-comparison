@@ -1,13 +1,13 @@
 require 'rest-client'
 require 'json'
-require './magic-shoes'
+require './magic-computers2'
 
 #electronics catid 702
 rm_array = []
 
-#@magic_clothing_ids.each do |id|
- url = "https://magic-aliexpress1.p.rapidapi.com/api/product/#{id}"
-
+@magic_computers_ids.each do |id|
+ #url = "https://magic-aliexpress1.p.rapidapi.com/api/product/#{id}"
+#url = "https://magic-aliexpress1.p.rapidapi.com/api/category/100003109/products?sort=NEWEST_DESC&minSalePrice=10"
 
 #rm = RestClient.get(
   url.strip,
@@ -21,4 +21,4 @@ end
 
 
 
-#File.open("magic-shoes-details.rb", "w"){ |f| f.write rm_array }
+#File.open("magic-computers-details2.rb", "w"){ |f| f.write rm_array }
