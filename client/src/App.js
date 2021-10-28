@@ -8,10 +8,16 @@ import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 
+// For the floating Compare button
+import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import NavigationIcon from '@material-ui/icons/Navigation';
+
 export default function Application(props) {
   const [state, setState] = useState({
     products: [],
     categories: [],
+    features: [],
     searchValue: "",
     catSelected: 1,
   });
@@ -41,13 +47,18 @@ export default function Application(props) {
   useEffect(() => {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
-    Promise.all([axios.get(URL1), axios.get(URL2)]).then((all) => {
+    const URL3 = "/api/features";
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then((all) => {
+    // Promise.all([axios.get(URL1), axios.get(URL2)]).then((all) => {
       console.log(all);
-      const [first, second] = all;
+      const [first, second, third] = all;
+      // const [first, second] = all;
       const products = first.data.products;
       const categories = second.data.categories;
+      const features = third.data.features;
       console.log(categories);
-      setState((prev) => ({ ...prev, products, categories }));
+      setState((prev) => ({ ...prev, products, categories, features }));
+      // setState((prev) => ({ ...prev, products, categories }));
     });
   }, []);
 
@@ -75,7 +86,8 @@ export default function Application(props) {
   const handleClick = () => {
     history.push({
       pathname: '/comparison',
-      selectedIDs: selectedProductIDs
+      selectedIDs: selectedProductIDs,
+      features: state.features
     });
   };
 
@@ -88,6 +100,12 @@ export default function Application(props) {
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
+          <Box sx={{ '& > :not(style)': { m: 1 } }}>
+            <Fab variant="extended">
+              <NavigationIcon sx={{ mr: 1 }} />
+                Compare
+            </Fab>
+        </Box>
       </div>
       <div className="container">
         <div className="row">{productArray}</div>

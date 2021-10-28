@@ -18,7 +18,7 @@ export default function Product(props) {
     <div className="col">
       <div className="card">
         <div className="card-body">
-          <div className="icons">
+          <div>
             {!selected && <i onClick={() => {toggleSelected()}} className="fas fa-compress"></i>}
             {selected && <i onClick={() => {toggleSelected()}} className="fas fa-compress-arrows-alt"></i>}
           </div>
