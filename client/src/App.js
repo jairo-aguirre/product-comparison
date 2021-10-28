@@ -15,6 +15,7 @@ export default function Application(props) {
     searchSelected: "",
     mode: "cat",
   });
+  const [open, setOpen] = useState(false);
   const handleChange = (catSelected, mode = "cat") => {
     //set selection to the value selected
     setState((prev) => ({ ...prev, catSelected, mode }));
@@ -85,6 +86,7 @@ export default function Application(props) {
           searchList={state.searchArray}
           searchSelected={state.searchSelected}
           updateSearch={updateSearch}
+          open={open}
         />
         <Category
           categories={state.categories}

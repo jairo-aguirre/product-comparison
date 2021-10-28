@@ -18,16 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar(props) {
   const classes = useStyles();
-  // const [open, setOpen] = useState(false);
-
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
   return (
     <AppBar position="static">
       <Toolbar>
@@ -37,7 +27,7 @@ export default function Navbar(props) {
           aria-label="menu"
           className={classes.menuButton}
         >
-          <MenuIcon />
+          <MenuIcon onClick={props.handleToggle} />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           PriceCompare

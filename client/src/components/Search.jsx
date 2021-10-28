@@ -10,12 +10,7 @@ export default function Search(props) {
       getOptionLabel={(option) => option.name}
       style={{ width: 300 }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Search..."
-          className={classes.inputRoot}
-          variant="outlined"
-        />
+        <TextField {...params} variant="outlined" label="Search.." fullWidth />
       )}
     />
   );
