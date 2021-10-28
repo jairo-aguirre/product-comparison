@@ -1,6 +1,7 @@
 export default function Product(props) {
   return (
-    <div className="col">
+    <div className="col" >
+      
       <div className="card">
         <img src={props.image} className="first-image" alt="" />
         <div className="card-body">
@@ -10,6 +11,7 @@ export default function Product(props) {
           </center>
         </div>
       </div>
+      
     </div>
   );
 }

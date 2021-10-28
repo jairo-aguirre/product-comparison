@@ -1,23 +1,3 @@
-// import Select from "@material-ui/core/Select";
-// import MenuItem from "@material-ui/core/MenuItem";
-// export default function Category(props) {
-//   const categoryArray = props.categories.map((category) => {
-//     return (
-//       <MenuItem key={category.id} value={category.id}>
-//         {category.name}
-//       </MenuItem>
-//     );
-//   });
-
-//   return (
-//     <Select
-//       value={props.catSelected} // we want to work in controlled mode
-//       onChange={(e) => props.handleChange(e.target.value)} // we want to work in controlled mode
-//     >
-//       {categoryArray}
-//     </Select>
-//   );
-// }
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";

@@ -2,7 +2,8 @@
 
 
 @asos_shoes= @products_array.each do |product|
-  puts product[:category_id]
+  
+  #puts product[:category_id]
   if product[:category_id] == 8606
     product[:category_id] = "Trainers"
   elsif product[:category_id] == 10774
@@ -18,7 +19,9 @@ product[:category_id] = "Flip Flops"
   elsif product[:category_id] == 8600
 product[:category_id] = "Sandals"
 end
+
+
 end
 
-puts @products_modified
+puts @asos_shoes.count
 
