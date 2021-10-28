@@ -241,7 +241,14 @@ end
   )
 end
 
+User.create!(
+  first_name: "Lisa"
+)
 
+Comparison.create!(
+  user_id: 1,
+  product_ids: "[150, 160, 170]"
+)
 
 
 
