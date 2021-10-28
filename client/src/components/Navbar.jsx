@@ -5,7 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchBar from "material-ui-search-bar";
+import Search from "../components/Search";
+import SearchIcon from "@material-ui/icons/Search";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -17,18 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar(props) {
   const classes = useStyles();
-  // const [open, setOpen] = useState(false);
-
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
-  
-
   return (
     <AppBar position="static">
       <Toolbar>
@@ -38,15 +27,18 @@ export default function Navbar(props) {
           aria-label="menu"
           className={classes.menuButton}
         >
-          <MenuIcon />
+          <MenuIcon onClick={props.handleToggle} />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           PriceCompare
         </Typography>
-        <SearchBar
-          value={props.searchValue}
-          // onRequestSearch={() => doSomethingWith(this.state.value)}
+
+        <Search
+          searchList={props.searchList}
+          searchSelected={props.searchSelected}
+          updateSearch={props.updateSearch}
         />
+        <SearchIcon />
         <Button color="inherit">Signup</Button>
       </Toolbar>
     </AppBar>
