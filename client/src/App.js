@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import { getProducts, createSearchlist } from "./helper/selector";
@@ -9,6 +10,13 @@ import CompBubble from "./components/CompBubble";
 import CompBubbleElement from "./components/CompBubbleElement";
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import Button from "./components/Button";
+
+// For the floating Compare button
+import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import NavigationIcon from '@material-ui/icons/Navigation';
 
 const reorder = (list, startIndex, endIndex) => {
   console.log('list', list)
@@ -51,6 +59,7 @@ export default function Application(props) {
     categories: [],
     searchArray: [],
     features: [],
+    searchValue: "",
     catSelected: 1,
     selected: 1,
     comparison: compare,
@@ -132,6 +141,24 @@ const [open, setOpen] = useState(false);
     }
     setState((prev) => ({ ...prev, mode, searchSelected: value }));
   };
+  
+  const [selectedProductIDs, setSelectedProductIDs] = useState([]);
+  const history = useHistory();
+
+  const addProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      return [...prev, id];
+    });
+  }
+  
+  const removeProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      const index = prev.findIndex((e) => e === id);
+      prev.splice(index, 1);
+      return prev;
+    });
+  }
+  
   useEffect(() => {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
@@ -216,6 +243,14 @@ const [open, setOpen] = useState(false);
        
     );
   });
+  
+  const handleClick = () => {
+    history.push({
+      pathname: '/comparison',
+      selectedIDs: selectedProductIDs,
+      features: state.features
+    });
+  };
 
   return (
     <div>
@@ -231,6 +266,12 @@ const [open, setOpen] = useState(false);
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
+          <Box sx={{ '& > :not(style)': { m: 1 } }}>
+            <Fab variant="extended">
+              <NavigationIcon sx={{ mr: 1 }} />
+                Compare
+            </Fab>
+        </Box>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
@@ -240,6 +281,7 @@ const [open, setOpen] = useState(false);
            <div className="container">
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
+             <Button onClick={handleClick}>Compare</Button>
            </div>
            </ul>
            )}
