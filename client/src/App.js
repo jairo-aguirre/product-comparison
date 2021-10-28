@@ -211,6 +211,8 @@ const [open, setOpen] = useState(false);
           sale={product.sale}
           url={product.url}
           category_id={product.category_id}
+          addProdIDs={addProdIDs}
+          removeProdIDs={removeProdIDs}
           
         />
         </li>
