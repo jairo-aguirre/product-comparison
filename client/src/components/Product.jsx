@@ -19,7 +19,7 @@ export default function Product(props) {
   };
 
   return (
-    <div className={props.style} >
+    <div className="col" >
       
       <div className="card">
         <div className='card-body'>

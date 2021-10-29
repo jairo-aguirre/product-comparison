@@ -19,6 +19,7 @@ class Api::ComparisonsController < ApplicationController
     end
   
     def show
+     
       
      
     end
@@ -31,6 +32,8 @@ class Api::ComparisonsController < ApplicationController
     end
   
     def create
+      puts 'comp paramss'
+      puts comparison_params
       @comparison = Comparison.new(comparison_params)
   
       if @comparison.save

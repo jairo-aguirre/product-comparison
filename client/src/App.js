@@ -33,20 +33,35 @@ const reorder = (list, startIndex, endIndex) => {
 
 
 const sendComparison = (products) => {
-  
-  
-  axios.post('/api/comparisons', {
+  const formUrlEncoded = x => {
+    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+  }
+   
+
+  const data = {
     user_id: 1,
-    product_ids: products
+    product_ids: products.toString()
+  }
+ 
+  
+  
+  axios.post('/api/comparisons', formUrlEncoded(data))
+  .then((data) => {
+    console.log('please be okay', data)
+  })
+  .catch((error) => {
+    console.log('error', error)
   })
 
 }
 
 const move = (source, destination, droppableSource, droppableDestination) => {
+  console.log('source', source)
+  console.log('destination', destination)
   const sourceClone = Array.from(source);
   console.log('sourceclone', sourceClone)
   console.log('destination in move function', destination)
-  const destClone = Array.from(destination);
+  const destClone = destination;
   console.log('destClone', destClone)
   const newDest = sourceClone[droppableSource.index]
   console.log('newDest', newDest)
@@ -93,10 +108,12 @@ export default function Application(props) {
     return state[id2List[id]]
   }
 
+ 
+
   let styleObject = {style: 'col'}
   
   let onDragStart = () => {
-    console.log('im dragging')
+    console.log('brain broke')
     return styleObject.style = 'card-compare'
   }
 
@@ -106,7 +123,7 @@ export default function Application(props) {
     const { source, destination } = result;
 
     // dropped outside the list
-    if (!destination || destination.droppableId === 'product') {
+    if (!destination || destination.droppableId === 'droppable') {
         return;
     }
     console.log("destinatiomn", destination)
@@ -124,12 +141,12 @@ export default function Application(props) {
         console.log('value', value)
 
         if (source.droppableId === 'droppable2') {
-            value =  state.catSelected[source.index - 1] ;
+            value =  state.products[source.index - 1] ;
            let productsHistory = state.comparisons.products;
            productsHistory.pop()
            productsHistory.push(value)
            let stateComparisons = state.comparisons
-           let comparisons = {...stateComparisons, products: productsHistory}
+           let comparisons = {...stateComparisons, product_ids: productsHistory}
 
            setState((prev) => ({ ...prev, selected: value.id, comparisons}));
            console.log('DRAGGED STATE', state)
@@ -139,20 +156,33 @@ export default function Application(props) {
         
     } else {
       console.log('destination.droppableId', destination.droppableId)
-
-        const result = move(
-            getList(source.droppableId),
-            getList(destination.droppableId),
-            source,
-            destination
-        );
+      const addId = getList(destination.droppableId).product_ids
+      console.log('this mothingesdfas source', source)
+      console.log('this mo fucking state', state)
+      let products = getProducts(state)
+      console.log('dem products', products)
+     let value =  products[source.index];
+     console.log('valuesssss', value)
+     console.log('valueid???', value.id)
+     addId.splice(0,1)
+      addId.push((value.id).toString())
+      let comparison = state.comparison
+      console.log('correct product', products[value])
+       
+        console.log('result from addId function', addId)
 
         console.log('destination2', destination)
         console.log('source2', source)
+        sendComparison(addId)
+        let productComparison = state.productComparison
+        productComparison.splice(0,1)
+        productComparison.push(value)
+        
+        
 
         setState((prev) => ({ ...prev, 
-          product: result.droppable,
-          comparison: result.droppable2 }))
+          
+          comparison: {...comparison, product_ids: addId, comparison, productComparison} }))
     }
 };
 
@@ -265,13 +295,14 @@ const [open, setOpen] = useState(false);
   const compareArray = []
   
   const onDelete = () => {
-    let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here']}
+    let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here'], product_ids: [1, 2, 3]}
     let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
     setState((prev) => ({ ...prev, comparison, productComparison }));
   }
   
 
    const compareArrayMapped = state.productComparison.map((comparison_id, index) => {
+     console.log(comparison_id)
       
       let comparison = state.comparison
       
@@ -285,8 +316,10 @@ const [open, setOpen] = useState(false);
             <CompBubbleElement
           key={comparison.id}
           id={comparison.id}
+          image={comparison_id.image}
           name={comparison_id.name}
           />
+          {provided.placeholder}
           
           </li>
          
@@ -306,7 +339,7 @@ const [open, setOpen] = useState(false);
   
   const handleClick = () => {
     history.push({
-      pathname: '/comparison',
+      pathname: '/comparison/show',
       selectedIDs: selectedProductIDs,
       features: state.features
     });
@@ -326,14 +359,10 @@ const [open, setOpen] = useState(false);
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
-        <DeleteButton onClick={onDelete}></DeleteButton>
-          <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab variant="extended">
-              <NavigationIcon sx={{ mr: 1 }} />
-                Compare
-            </Fab>
-        </Box>
+        
+         
       </div>
+      <div className="lists">
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -343,6 +372,7 @@ const [open, setOpen] = useState(false);
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
              <Button onClick={handleClick}>Compare</Button>
+             <DeleteButton onClick={onDelete}></DeleteButton>
              
            </div>
            </ul>
@@ -351,19 +381,21 @@ const [open, setOpen] = useState(false);
 
            <Droppable droppableId="droppable2">
              {(provided, snapshot) => (
+               
                  <ul
                  ref={provided.innerRef}
                  {...provided.draggableProps}
                  {...provided.dragHandleProps}>
+                   <h2>Compare</h2>
                  {provided.placeholder}
                  <div className="footer">
-                 
+                   
                    {compareArray}
                    {provided.placeholder}
                    
                  
                  </div>
-                 
+                 {provided.placeholder}
                  </ul>
                   
              )}
@@ -371,6 +403,7 @@ const [open, setOpen] = useState(false);
           
       </Droppable>
       </DragDropContext>
+      </div>
      
     </div>
    
