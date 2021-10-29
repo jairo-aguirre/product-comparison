@@ -1,5 +1,5 @@
 export function getProducts(newstate) {
-  console.log("inside selector", newstate);
+  // console.log("inside selector", newstate);
   const catSelected = newstate.catSelected;
   const products = newstate.products;
   const features = newstate.features;

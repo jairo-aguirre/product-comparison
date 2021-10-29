@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import { getProducts, createSearchlist } from "./helper/selector";
@@ -11,47 +10,41 @@ import CompBubbleElement from "./components/CompBubbleElement";
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import Button from "./components/Button";
-
-// For the floating Compare button
-import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import CompareButton from "./components/CompareButton";
 
 const reorder = (list, startIndex, endIndex) => {
-  console.log('list', list)
-    const result = Array.from(list);
-    console.log('result', result)
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    console.log('result2', result)
-    
-    return result;
+  // console.log('list', list)
+  const result = Array.from(list);
+  // console.log('result', result)
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  // console.log('result2', result)
+
+  return result;
 }
 
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
-  console.log('sourceclone', sourceClone)
-  console.log('destination in move function', destination)
+  // console.log('sourceclone', sourceClone)
+  // console.log('destination in move function', destination)
   const destClone = Array.from(destination);
-  console.log('destClone', destClone)
+  // console.log('destClone', destClone)
   const newDest = sourceClone[droppableSource.index]
-  console.log('newDest', newDest)
+  // console.log('newDest', newDest)
   sourceClone.splice(droppableSource.index, 1);
   destClone.splice(0, 1)
   destClone.push(newDest);
-  console.log('newDest2', destClone)
+  // console.log('newDest2', destClone)
 
   const result = {};
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
-  console.log(result)
+  // console.log(result)
 
   return result;
 };
 
-const compare = [{id: 200, name: "compare here"}, {id: 201, name: "compare here"}, {id: 203, name: "compare here"}]
-
+const compare = [{ id: 200, name: "compare here" }, { id: 201, name: "compare here" }, { id: 203, name: "compare here" }]
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -64,7 +57,6 @@ export default function Application(props) {
     selected: 1,
     comparison: compare,
     mode: 'cat'
-    
 
   });
 
@@ -73,62 +65,64 @@ export default function Application(props) {
     droppable: 'products',
     droppable2: 'comparison'
   }
-  
+
 
   let getList = id => {
     return state[id2List[id]]
   }
- 
+
 
   let onDragEnd = result => {
     const { source, destination } = result;
 
     // dropped outside the list
     if (!destination || destination.droppableId === 'product') {
-        return;
+      return;
     }
-    console.log("destinatiomn", destination)
+    // console.log("destinatiomn", destination)
 
     if (source.droppableId === destination.droppableId) {
-      console.log('source1', source)
-        const products = reorder(
-           getList(source.droppableId),
-            source.index,
-            destination.index
-        );
-        console.log('products', state.products)
-        console.log('source', source)
-        let value =  state.products[source.index] ;
-        console.log('value', value)
+      // console.log('source1', source)
+      const products = reorder(
+        getList(source.droppableId),
+        source.index,
+        destination.index
+      );
+      // console.log('products', state.products)
+      // console.log('source', source)
+      let value = state.products[source.index];
+      // console.log('value', value)
 
-        if (source.droppableId === 'droppable2') {
-            value =  products[source.index] ;
-        }
+      if (source.droppableId === 'droppable2') {
+        value = products[source.index];
+      }
 
-        setState((prev) => ({ ...prev, selected: value.id}));
+      setState((prev) => ({ ...prev, selected: value.id }));
     } else {
-      console.log('destination.droppableId', destination.droppableId)
+      // console.log('destination.droppableId', destination.droppableId)
 
-        const result = move(
-            getList(source.droppableId),
-            getList(destination.droppableId),
-            source,
-            destination
-        );
+      const result = move(
+        getList(source.droppableId),
+        getList(destination.droppableId),
+        source,
+        destination
+      );
 
-        console.log('destination2', destination)
-        console.log('source2', source)
+      // console.log('destination2', destination)
+      // console.log('source2', source)
 
-        setState((prev) => ({ ...prev, 
-          product: result.droppable,
-          comparison: result.droppable2 }))
+      setState((prev) => ({
+        ...prev,
+        product: result.droppable,
+        comparison: result.droppable2
+      }))
     }
-};
+  };
 
 
 
-const [open, setOpen] = useState(false);
-  
+  const [open, setOpen] = useState(false);
+
   const handleChange = (catSelected, mode = "cat") => {
     //set selection to the value selected
     setState((prev) => ({ ...prev, catSelected, mode }));
@@ -141,24 +135,28 @@ const [open, setOpen] = useState(false);
     }
     setState((prev) => ({ ...prev, mode, searchSelected: value }));
   };
-  
+
   const [selectedProductIDs, setSelectedProductIDs] = useState([]);
-  const history = useHistory();
 
   const addProdIDs = (id) => {
     setSelectedProductIDs((prev) => {
+      // console.log('add_ID', id);
       return [...prev, id];
     });
   }
-  
+
   const removeProdIDs = (id) => {
     setSelectedProductIDs((prev) => {
+      // debugger;
       const index = prev.findIndex((e) => e === id);
-      prev.splice(index, 1);
-      return prev;
+      // console.log('remID', id);
+      const prev2 = [...prev];
+      prev2.splice(index, 1);
+      // console.log('remPREV', prev2);
+      return prev2;
     });
   }
-  
+
   useEffect(() => {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
@@ -166,10 +164,10 @@ const [open, setOpen] = useState(false);
 
     Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
       (all) => {
-        console.log(all);
+        // console.log(all);
 
         const [first, second, third] = all;
-        console.log(third.data);
+        // console.log(third.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
@@ -192,32 +190,33 @@ const [open, setOpen] = useState(false);
   //     state.query && post.name.toLowerCase().includes(state.query.toLowerCase())
   // );
   const firstset = getProducts({ ...state });
-  console.log("products", state.mode, firstset);
+  // console.log("products", state.mode, firstset);
   const productArray = firstset.map((product, index) => {
     let id = (product.id).toString();
     return (
       <Draggable key={product.id} draggableId={id} index={index}>
         {(provided) => (
           <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-          <Product
-          
-          key={product.id}
-          id={product.id}
-          name={product.name}
-          image={product.image}
-          description={product.description}
-          price_cents={product.price_cents}
-          rating={product.rating}
-          sale={product.sale}
-          url={product.url}
-          category_id={product.category_id}
-          addProdIDs={addProdIDs}
-          removeProdIDs={removeProdIDs}
-          
-        />
-        </li>
+            <Product
+
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              image={product.image}
+              description={product.description}
+              price_cents={product.price_cents}
+              rating={product.rating}
+              sale={product.sale}
+              url={product.url}
+              category_id={product.category_id}
+              addProdIDs={addProdIDs}
+              removeProdIDs={removeProdIDs}
+              index={index}
+
+            />
+          </li>
         )}
-        
+
       </Draggable>
     );
   });
@@ -227,32 +226,24 @@ const [open, setOpen] = useState(false);
     return (
       <Draggable key={comparison.id} draggableId={id} index={index}>
         {(provided) => (
-        
-         
-        <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-          <CompBubbleElement
-        key={comparison.id}
-        id={comparison.id}
-        name={comparison.name}
-        />
-        
-        </li>
-       
-        
+
+
+          <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+            <CompBubbleElement
+              key={comparison.id}
+              id={comparison.id}
+              name={comparison.name}
+            />
+
+          </li>
+
+
         )}
-        
+
       </Draggable>
-       
+
     );
   });
-  
-  const handleClick = () => {
-    history.push({
-      pathname: '/comparison',
-      selectedIDs: selectedProductIDs,
-      features: state.features
-    });
-  };
 
   return (
     <div>
@@ -268,47 +259,43 @@ const [open, setOpen] = useState(false);
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
-          <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab variant="extended">
-              <NavigationIcon sx={{ mr: 1 }} />
-                Compare
-            </Fab>
-        </Box>
+        <CompareButton
+          selectedIDs={selectedProductIDs}
+          features= {state.features}
+        />
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-           <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
-             {provided.placeholder}
-           <div className="container">
-             {/* <div className="row">{categoryArray}</div> */}
-             <div className="row">{productArray}</div>
-             <Button onClick={handleClick}>Compare</Button>
-           </div>
-           </ul>
-           )}
-           </Droppable>
+            <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
+              {provided.placeholder}
+              <div className="container">
+                <div className="row">{productArray}</div>
+              </div>
+            </ul>
+          )}
+        </Droppable>
 
-           <Droppable droppableId="droppable2">
-             {(provided, snapshot) => (
-                 <ul
-                 ref={provided.innerRef}
-                 {...provided.draggableProps}
-                 {...provided.dragHandleProps}>
-                 {provided.placeholder}
-                 <div className="footer">
-                 
-                   {compareArray}
-                   
-                 
-                 </div>
-                 
-                 </ul>
-                  
-             )}
-          
-          
-      </Droppable>
+        <Droppable droppableId="droppable2">
+          {(provided, snapshot) => (
+            <ul
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}>
+              {provided.placeholder}
+              <div className="footer">
+
+                {compareArray}
+
+
+              </div>
+
+            </ul>
+
+          )}
+
+
+        </Droppable>
       </DragDropContext>
     </div>
   );
