@@ -31,10 +31,10 @@ export default function Comparison(props) {
       }
     }
   }
-  console.log('prodComparison2', prodComparison2);
+  // console.log('prodComparison2', prodComparison2);
 
   const createProductTable = prodFeatureNames.map(featureName => {
-    console.log(featureName);
+    // console.log(featureName);
     return (
       <div className="compareTable">
         <strong>
@@ -66,7 +66,7 @@ export default function Comparison(props) {
         <div>{createProductTable}</div>
         <br/>
         <div>
-          <SaveCompareButton>
+          <SaveCompareButton productIDs={productIDs}>
             Save
           </SaveCompareButton>
         </div>

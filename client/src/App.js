@@ -10,32 +10,12 @@ import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import CompareButton from "./components/CompareButton";
 
-//function will send comparison info to database, can be put in another file later
-const sendComparison = (products) => {
-  const formUrlEncoded = x => {
-    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-  }
-   
-  const data = {
-    user_id: 1,
-    product_ids: products.toString()
-  }
- 
-  axios.post('/api/comparisons', formUrlEncoded(data))
-  .then((data) => {
-    console.log('please be okay', data)
-  })
-  .catch((error) => {
-    console.log('error', error)
-  })
-
-}
-
 //declare first state for comparison
 let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here'], product_ids: [1, 2, 3]}
 let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
 
 export default function Application(props) {
+   
   const [state, setState] = useState({
     products: [],
     categories: [],
@@ -152,15 +132,15 @@ export default function Application(props) {
         // console.log(all);
 
         const [first, second, third, fourth] = all;
-        console.log(fourth.data);
+        // console.log(fourth.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
         const comparison = fourth.data.comparisons;
         const productComparison = fourth.data.products;
-        console.log('comparison data', comparison)
-        console.log('productcomparison data', productComparison)
+        // console.log('comparison data', comparison)
+        // console.log('productcomparison data', productComparison)
         const searchArray = createSearchlist(featuretypes);
         // const searchArray = originalsearchArray.slice(0, 10);
         setState((prev) => ({
@@ -250,6 +230,7 @@ export default function Application(props) {
          
       );
     });
+    compareArray.push(compareArrayMapped)
   
 
   //update drag and drop stuff for select button

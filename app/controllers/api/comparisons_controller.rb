@@ -1,5 +1,5 @@
 class Api::ComparisonsController < ApplicationController
-
+    
     def index
       @comparisons = Comparison.first
       @compareProducts = []
@@ -32,17 +32,16 @@ class Api::ComparisonsController < ApplicationController
     end
   
     def create
-      puts 'comp paramss'
-      puts comparison_params
-      @comparison = Comparison.new(comparison_params)
-  
+      puts "comp params"
+
+      @array = comparison_params[:product_ids].split(",")
+
+      @comparison = Comparison.new(:user_id => comparison_params[:user_id], :product_ids => @array)
       if @comparison.save
         render :json => {
           comparisons: @comparison
       }
-      
       end
-
     end
   
     def destroy
