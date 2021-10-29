@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   
 
+  resources :users, only: [:index, :show]
   end
 
   get '*path', to: "static_pages#fallback_index_html", constraints: ->(request) do

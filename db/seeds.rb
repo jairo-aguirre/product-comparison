@@ -18,6 +18,12 @@ require './db/data/target-comp-details2'
 require './db/data/target-mens-details2'
 require './db/data/target-womens-details2'
 
+
+
+User.create!(first_name: "Rita", last_name: "Morgan",email:"RobertCBrown@test.com")
+ User.create!(first_name: "Victoria", last_name: "Dyer",email:"ClayJWilson@test.us")
+ User.create!(first_name: "Joseph", last_name: "Gibbons",email:"JosephGibbons@test.us")
+
 #cat1 is shoes
 Category.create!(name: "Shoes")
 
