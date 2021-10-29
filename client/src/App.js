@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
-import {
-  getProducts,
-  createSearchlist,
-  createComparelist,
-} from "./helper/selector";
+import { getProducts, createSearchlist } from "./helper/selector";
 import { useLogin } from "./hooks/useLogin";
 import Product from "./components/Product";
 import Category from "./components/Category";
@@ -189,9 +185,8 @@ export default function Application(props) {
   //   (post) =>
   //     state.query && post.name.toLowerCase().includes(state.query.toLowerCase())
   // );
-
   const firstset = getProducts({ ...state });
-  console.log("compare", comparelist, selectedProductIDs);
+
   console.log("products", state.mode, firstset);
   const productArray = firstset.map((product, index) => {
     let id = product.id.toString();
@@ -246,11 +241,10 @@ export default function Application(props) {
   });
 
   const handleClick = () => {
-    comparelist = createComparelist(selectedProductIDs, { ...state });
     history.push({
       pathname: "/comparison",
       selectedIDs: selectedProductIDs,
-      comparelist: comparelist,
+      features: state.features,
     });
   };
 
@@ -272,7 +266,7 @@ export default function Application(props) {
           handleChange={handleChange}
         ></Category>
         <Box sx={{ "& > :not(style)": { m: 1 } }}>
-          <Fab variant="extended" onClick={handleClick}>
+          <Fab variant="extended">
             <NavigationIcon sx={{ mr: 1 }} />
             Compare
           </Fab>
@@ -290,7 +284,7 @@ export default function Application(props) {
               <div className="container">
                 {/* <div className="row">{categoryArray}</div> */}
                 <div className="row">{productArray}</div>
-                {/* <Button onClick={handleClick}>Compare</Button> */}
+                <Button onClick={handleClick}>Compare</Button>
               </div>
             </ul>
           )}
