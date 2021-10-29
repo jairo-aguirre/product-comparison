@@ -8,6 +8,7 @@ import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import CompBubble from "./components/CompBubble";
 import CompBubbleElement from "./components/CompBubbleElement";
+import DeleteButton from "./components/DeleteButton";
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -27,6 +28,18 @@ const reorder = (list, startIndex, endIndex) => {
     console.log('result2', result)
     
     return result;
+}
+
+
+
+const sendComparison = (products) => {
+  
+  
+  axios.post('/api/comparisons', {
+    user_id: 1,
+    product_ids: products
+  })
+
 }
 
 const move = (source, destination, droppableSource, droppableDestination) => {
@@ -50,7 +63,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result;
 };
 
-const compare = [{id: 200, name: "compare here"}, {id: 201, name: "compare here"}, {id: 203, name: "compare here"}]
+
 
 
 export default function Application(props) {
@@ -62,8 +75,9 @@ export default function Application(props) {
     searchValue: "",
     catSelected: 1,
     selected: 1,
-    comparison: compare,
-    mode: 'cat'
+    comparison: [],
+    mode: 'cat',
+    productComparison: []
     
 
   });
@@ -78,9 +92,17 @@ export default function Application(props) {
   let getList = id => {
     return state[id2List[id]]
   }
- 
+
+  let styleObject = {style: 'col'}
+  
+  let onDragStart = () => {
+    console.log('im dragging')
+    return styleObject.style = 'card-compare'
+  }
 
   let onDragEnd = result => {
+    styleObject.style = 'col'
+    
     const { source, destination } = result;
 
     // dropped outside the list
@@ -102,10 +124,19 @@ export default function Application(props) {
         console.log('value', value)
 
         if (source.droppableId === 'droppable2') {
-            value =  products[source.index] ;
+            value =  state.catSelected[source.index - 1] ;
+           let productsHistory = state.comparisons.products;
+           productsHistory.pop()
+           productsHistory.push(value)
+           let stateComparisons = state.comparisons
+           let comparisons = {...stateComparisons, products: productsHistory}
+
+           setState((prev) => ({ ...prev, selected: value.id, comparisons}));
+           console.log('DRAGGED STATE', state)
+           sendComparison(productsHistory)
         }
 
-        setState((prev) => ({ ...prev, selected: value.id}));
+        
     } else {
       console.log('destination.droppableId', destination.droppableId)
 
@@ -163,17 +194,22 @@ const [open, setOpen] = useState(false);
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
+    const URL4 = "/api/comparisons/index"
 
-    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3), axios.get(URL4)]).then(
       (all) => {
         console.log(all);
 
-        const [first, second, third] = all;
-        console.log(third.data);
+        const [first, second, third, fourth] = all;
+        console.log(fourth.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
+        const comparison = fourth.data.comparisons;
+        const productComparison = fourth.data.products;
+        console.log('comparison data', comparison)
+        console.log('productcomparison data', productComparison)
         const searchArray = createSearchlist(featuretypes);
         // const searchArray = originalsearchArray.slice(0, 10);
         setState((prev) => ({
@@ -182,6 +218,8 @@ const [open, setOpen] = useState(false);
           categories,
           features,
           searchArray,
+          comparison, 
+          productComparison
         }));
       }
     );
@@ -213,6 +251,8 @@ const [open, setOpen] = useState(false);
           category_id={product.category_id}
           addProdIDs={addProdIDs}
           removeProdIDs={removeProdIDs}
+          style={styleObject}
+          handleSelect={handleSelect}
           
         />
         </li>
@@ -221,30 +261,48 @@ const [open, setOpen] = useState(false);
       </Draggable>
     );
   });
+ 
+  const compareArray = []
+  
+  const onDelete = () => {
+    let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here']}
+    let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
+    setState((prev) => ({ ...prev, comparison, productComparison }));
+  }
+  
 
-  const compareArray = state.comparison.map((comparison, index) => {
-    let id = (comparison.id).toString();
-    return (
-      <Draggable key={comparison.id} draggableId={id} index={index}>
-        {(provided) => (
-        
+   const compareArrayMapped = state.productComparison.map((comparison_id, index) => {
+      
+      let comparison = state.comparison
+      
+      let id = (comparison.id).toString();
+      return (
+        <Draggable key={comparison.id} draggableId={id} index={index}>
+          {(provided) => (
+          
+           
+          <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+            <CompBubbleElement
+          key={comparison.id}
+          id={comparison.id}
+          name={comparison_id.name}
+          />
+          
+          </li>
          
-        <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-          <CompBubbleElement
-        key={comparison.id}
-        id={comparison.id}
-        name={comparison.name}
-        />
-        
-        </li>
-       
-        
-        )}
-        
-      </Draggable>
-       
-    );
-  });
+          
+          )}
+          
+        </Draggable>
+         
+      );
+    });
+  compareArray.push(compareArrayMapped)
+
+  
+  const handleSelect = () => {
+    return onDragEnd
+  }
   
   const handleClick = () => {
     history.push({
@@ -268,6 +326,7 @@ const [open, setOpen] = useState(false);
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
+        <DeleteButton onClick={onDelete}></DeleteButton>
           <Box sx={{ '& > :not(style)': { m: 1 } }}>
             <Fab variant="extended">
               <NavigationIcon sx={{ mr: 1 }} />
@@ -275,7 +334,7 @@ const [open, setOpen] = useState(false);
             </Fab>
         </Box>
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
            <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
@@ -284,6 +343,7 @@ const [open, setOpen] = useState(false);
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
              <Button onClick={handleClick}>Compare</Button>
+             
            </div>
            </ul>
            )}
@@ -299,6 +359,7 @@ const [open, setOpen] = useState(false);
                  <div className="footer">
                  
                    {compareArray}
+                   {provided.placeholder}
                    
                  
                  </div>
@@ -310,6 +371,8 @@ const [open, setOpen] = useState(false);
           
       </Droppable>
       </DragDropContext>
+     
     </div>
+   
   );
 }

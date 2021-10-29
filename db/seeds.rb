@@ -247,7 +247,7 @@ User.create!(
 
 Comparison.create!(
   user_id: 1,
-  product_ids: "[150, 160, 170]"
+  product_ids: [150, 160, 170]
 )
 
 

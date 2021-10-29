@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :show]
   resources :categories, only: [:index]
   resources :features, only: [:index]
-  resources :comparisons
+  resources :comparisons, only: [:index, :create]
 
-  get 'comparison'
-  post 'comparison/create'
-  delete 'comparison/destroy', to: 'comparison#destroy'
+  get 'comparisons/index'
+
+  
 
   end
 
