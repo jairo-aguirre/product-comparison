@@ -1,6 +1,6 @@
 
 export default function CompBubbleElement(props) {
-  console.log("props", props)
+  // console.log("props", props)
   return (
     
     
