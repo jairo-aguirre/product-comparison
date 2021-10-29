@@ -7,6 +7,7 @@ export default function Product(props) {
   const toggleSelected = () => {
     if (selected) {
       setSelected(false);
+      document.getElementById(`heart${props.index}`).style.color = "#989898";
       props.removeProdIDs(props.id);
     } else {
       setSelected(true);
