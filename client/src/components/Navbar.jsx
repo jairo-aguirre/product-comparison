@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
-
 export default function Navbar(props) {
   const classes = useStyles();
   return (
@@ -39,7 +38,19 @@ export default function Navbar(props) {
           updateSearch={props.updateSearch}
         />
         <SearchIcon />
-        <Button color="inherit">Signup</Button>
+        {!props.login.status && (
+          <Button color="inherit" onClick={props.getUser}>
+            Login
+          </Button>
+        )}
+        {props.login.status && (
+          <Typography variant="body2">{props.login.user.first_name}</Typography>
+        )}
+        {props.login.status && (
+          <Button color="inherit" onClick={props.logOut}>
+            Logout
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

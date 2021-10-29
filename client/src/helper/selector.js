@@ -33,3 +33,19 @@ export function createSearchlist(featuretypes) {
   }
   return [];
 }
+export function createComparelist(selectedProductIDs, newstate) {
+  const products = newstate.products;
+  const features = newstate.features;
+  const featureArray = features.filter((feature) =>
+    selectedProductIDs.includes(feature.product_id)
+  );
+  const productArray = products.filter((product) =>
+    selectedProductIDs.includes(product.id)
+  );
+
+  if (featureArray.length > 0 && productArray.length > 0) {
+    console.log({ products: productArray, features: featureArray });
+    return { products: productArray, features: featureArray };
+  }
+  return [];
+}

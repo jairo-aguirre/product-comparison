@@ -2,17 +2,19 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
-import { getProducts, createSearchlist } from "./helper/selector";
+import {
+  getProducts,
+  createSearchlist,
+  createComparelist,
+} from "./helper/selector";
+import { useLogin } from "./hooks/useLogin";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import CompBubble from "./components/CompBubble";
 import CompBubbleElement from "./components/CompBubbleElement";
-
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import Button from "./components/Button";
-
 // For the floating Compare button
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
@@ -68,7 +70,7 @@ export default function Application(props) {
     comparison: compare,
     mode: "cat",
   });
-
+  const { login, getUser, logOut } = useLogin();
   let id2List = {
     id: "products",
     droppable: "products",
@@ -125,9 +127,6 @@ export default function Application(props) {
       }));
     }
   };
-
-  const [open, setOpen] = useState(false);
-
   const handleChange = (catSelected, mode = "cat") => {
     //set selection to the value selected
     setState((prev) => ({ ...prev, catSelected, mode }));
@@ -190,7 +189,9 @@ export default function Application(props) {
   //   (post) =>
   //     state.query && post.name.toLowerCase().includes(state.query.toLowerCase())
   // );
+
   const firstset = getProducts({ ...state });
+  console.log("compare", comparelist, selectedProductIDs);
   console.log("products", state.mode, firstset);
   const productArray = firstset.map((product, index) => {
     let id = product.id.toString();
@@ -245,10 +246,11 @@ export default function Application(props) {
   });
 
   const handleClick = () => {
+    comparelist = createComparelist(selectedProductIDs, { ...state });
     history.push({
       pathname: "/comparison",
       selectedIDs: selectedProductIDs,
-      features: state.features,
+      comparelist: comparelist,
     });
   };
 
@@ -259,7 +261,10 @@ export default function Application(props) {
           searchList={state.searchArray}
           searchSelected={state.searchSelected}
           updateSearch={updateSearch}
-          open={open}
+          isLoggedIn={state.isLoggedIn}
+          getUser={getUser}
+          login={login}
+          logOut={logOut}
         />
         <Category
           categories={state.categories}
@@ -267,7 +272,7 @@ export default function Application(props) {
           handleChange={handleChange}
         ></Category>
         <Box sx={{ "& > :not(style)": { m: 1 } }}>
-          <Fab variant="extended">
+          <Fab variant="extended" onClick={handleClick}>
             <NavigationIcon sx={{ mr: 1 }} />
             Compare
           </Fab>
@@ -285,7 +290,7 @@ export default function Application(props) {
               <div className="container">
                 {/* <div className="row">{categoryArray}</div> */}
                 <div className="row">{productArray}</div>
-                <Button onClick={handleClick}>Compare</Button>
+                {/* <Button onClick={handleClick}>Compare</Button> */}
               </div>
             </ul>
           )}
