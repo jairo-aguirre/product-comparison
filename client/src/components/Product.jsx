@@ -5,16 +5,20 @@ import './Product.css';
 
 export default function Product(props) {
   
+  
   const [selected, setSelected] = useState(false);
 
   const toggleSelected = () => {
     if (selected) {
       setSelected(false);
       props.removeProdIDs(props.id);
-      props.handleSelect()
+      props.handleSelect(false, props.id, props)
+      
+      
     } else {
       setSelected(true);
       props.addProdIDs(props.id);
+      props.handleSelect(true, props.id, props);
     }
   };
 

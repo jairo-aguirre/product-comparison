@@ -5,40 +5,22 @@ import { getProducts, createSearchlist } from "./helper/selector";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
-import CompBubble from "./components/CompBubble";
 import CompBubbleElement from "./components/CompBubbleElement";
 import DeleteButton from "./components/DeleteButton";
-
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
 import CompareButton from "./components/CompareButton";
 
-const reorder = (list, startIndex, endIndex) => {
-  // console.log('list', list)
-  const result = Array.from(list);
-  // console.log('result', result)
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  // console.log('result2', result)
-
-  return result;
-}
-
-
-
+//function will send comparison info to database, can be put in another file later
 const sendComparison = (products) => {
   const formUrlEncoded = x => {
     return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
   }
    
-
   const data = {
     user_id: 1,
     product_ids: products.toString()
   }
  
-  
-  
   axios.post('/api/comparisons', formUrlEncoded(data))
   .then((data) => {
     console.log('please be okay', data)
@@ -49,31 +31,9 @@ const sendComparison = (products) => {
 
 }
 
-const move = (source, destination, droppableSource, droppableDestination) => {
-  console.log('source', source)
-  console.log('destination', destination)
-  const sourceClone = Array.from(source);
-  console.log('sourceclone', sourceClone)
-  console.log('destination in move function', destination)
-  const destClone = destination;
-  console.log('destClone', destClone)
-  const newDest = sourceClone[droppableSource.index]
-  // console.log('newDest', newDest)
-  sourceClone.splice(droppableSource.index, 1);
-  destClone.splice(0, 1)
-  destClone.push(newDest);
-  // console.log('newDest2', destClone)
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-  // console.log(result)
-
-  return result;
-};
-
-
-
+//declare first state for comparison
+let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here'], product_ids: [1, 2, 3]}
+let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -84,97 +44,81 @@ export default function Application(props) {
     searchValue: "",
     catSelected: 1,
     selected: 1,
-    comparison: [],
+    comparison: comparison,
     mode: 'cat',
-    productComparison: []
-    
-
+    productComparison: productComparison
   });
 
+  //get the list ids from each droppable area
   let id2List = {
     id: 'products',
     droppable: 'products',
     droppable2: 'comparison'
   }
 
-
+  //get the list of products in each droppable area
   let getList = id => {
     return state[id2List[id]]
   }
 
+  //set selectedProductIDs
+  const [selectedProductIDs, setSelectedProductIDs] = useState([]);
  
-
-  let styleObject = {style: 'col'}
-  
-  let onDragStart = () => {
-    console.log('brain broke')
-    return styleObject.style = 'card-compare'
+  //add productIds upon select
+  const addProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      // console.log('add_ID', id);
+      return [...prev, id];
+    });
+    
   }
+  
+  //remove product ids upon unselect
+  const removeProdIDs = (id) => {
+    setSelectedProductIDs((prev) => {
+      // debugger;
+      const index = prev.findIndex((e) => e === id);
+      // console.log('remID', id);
+      const prev2 = [...prev];
+      prev2.splice(index, 1);
+      // console.log('remPREV', prev2);
+      return prev2;
+    });
+  }
+  
 
   let onDragEnd = result => {
-    styleObject.style = 'col'
+    
     
     const { source, destination } = result;
 
     // dropped outside the list
-    if (!destination || destination.droppableId === 'droppable') {
+    if (!destination || destination.droppableId === 'droppable' || source.droppableId === 'droppable2' || source.droppableId === destination.droppableId) {
         return;
-    }
-    // console.log("destinatiomn", destination)
-
-    if (source.droppableId === destination.droppableId) {
-      console.log('source1', source)
-        const products = reorder(
-           getList(source.droppableId),
-            source.index,
-            destination.index
-        );
-        console.log('products', state.products)
-        console.log('source', source)
-        let value =  state.products[source.index] ;
-        console.log('value', value)
-
-        if (source.droppableId === 'droppable2') {
-            value =  state.products[source.index - 1] ;
-           let productsHistory = state.comparisons.products;
-           productsHistory.pop()
-           productsHistory.push(value)
-           let stateComparisons = state.comparisons
-           let comparisons = {...stateComparisons, product_ids: productsHistory}
-
-           setState((prev) => ({ ...prev, selected: value.id, comparisons}));
-           console.log('DRAGGED STATE', state)
-           sendComparison(productsHistory)
-        }
-
         
-    } else {
-      console.log('destination.droppableId', destination.droppableId)
+    } else { //this is for if it drops into droppable2 (comparison area)
+      
       const addId = getList(destination.droppableId).product_ids
-      console.log('this mothingesdfas source', source)
-      console.log('this mo fucking state', state)
+      
       let products = getProducts(state)
-      console.log('dem products', products)
-     let value =  products[source.index];
-     console.log('valuesssss', value)
-     console.log('valueid???', value.id)
-     addId.splice(0,1)
+      
+      let value =  products[source.index];
+     
+      //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
+      addId.splice(0,1)
+      //put the new value in at the end
       addId.push((value.id).toString())
       let comparison = state.comparison
-      console.log('correct product', products[value])
        
-        console.log('result from addId function', addId)
-
-        console.log('destination2', destination)
-        console.log('source2', source)
-        sendComparison(addId)
-        let productComparison = state.productComparison
-        productComparison.splice(0,1)
-        productComparison.push(value)
-        
-        
-
-        setState((prev) => ({ ...prev, 
+      let productComparison = state.productComparison
+      //do the same as above but for the part of state that has all of the product info (not just ID)
+      productComparison.splice(0,1)
+      productComparison.push(value)
+      //add this ID to Jairos collection
+      addProdIDs(value.id)
+    
+      //finally set the state so it shows in compare bubble
+      setState((prev) => ({ ...prev, 
           
           comparison: {...comparison, product_ids: addId, comparison, productComparison} }))
     }
@@ -196,27 +140,6 @@ export default function Application(props) {
     }
     setState((prev) => ({ ...prev, mode, searchSelected: value }));
   };
-
-  const [selectedProductIDs, setSelectedProductIDs] = useState([]);
-
-  const addProdIDs = (id) => {
-    setSelectedProductIDs((prev) => {
-      // console.log('add_ID', id);
-      return [...prev, id];
-    });
-  }
-
-  const removeProdIDs = (id) => {
-    setSelectedProductIDs((prev) => {
-      // debugger;
-      const index = prev.findIndex((e) => e === id);
-      // console.log('remID', id);
-      const prev2 = [...prev];
-      prev2.splice(index, 1);
-      // console.log('remPREV', prev2);
-      return prev2;
-    });
-  }
 
   useEffect(() => {
     const URL1 = "/api/products";
@@ -245,9 +168,7 @@ export default function Application(props) {
           products,
           categories,
           features,
-          searchArray,
-          comparison, 
-          productComparison
+          searchArray
         }));
       }
     );
@@ -279,8 +200,8 @@ export default function Application(props) {
           category_id={product.category_id}
           addProdIDs={addProdIDs}
           removeProdIDs={removeProdIDs}
-          style={styleObject}
           handleSelect={handleSelect}
+          state={state}
           
         />
         </li>
@@ -292,15 +213,16 @@ export default function Application(props) {
  
   const compareArray = []
   
+  //delete comparisons
   const onDelete = () => {
     let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here'], product_ids: [1, 2, 3]}
     let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
+    setSelectedProductIDs([])
     setState((prev) => ({ ...prev, comparison, productComparison }));
   }
   
 
    const compareArrayMapped = state.productComparison.map((comparison_id, index) => {
-     console.log(comparison_id)
       
       let comparison = state.comparison
       
@@ -328,20 +250,31 @@ export default function Application(props) {
          
       );
     });
-  compareArray.push(compareArrayMapped)
+  
 
-  
-  const handleSelect = () => {
-    return onDragEnd
+  //update drag and drop stuff for select button
+  const handleSelect = (add, id, value) => {
+    const comparison = state.comparison
+    const productComparison = state.productComparison
+    if (add) {
+      productComparison.splice(0,1)
+      productComparison.push(value)
+    } else {
+      for (const product of productComparison) {
+        if (product.id === id) {
+          let index = productComparison.indexOf(product)
+          productComparison[index] = {id: 1, name: 'compare here'}
+        }
+        
+      }
+    }
+    
+
+    setState((prev) => ({ ...prev, 
+          
+      comparison: {...comparison, product_ids: selectedProductIDs, comparison, productComparison} }))
   }
-  
-  const handleClick = () => {
-    history.push({
-      pathname: '/comparison/show',
-      selectedIDs: selectedProductIDs,
-      features: state.features
-    });
-  };
+ 
 
   return (
     <div>
@@ -363,7 +296,7 @@ export default function Application(props) {
         />
       </div>
       <div className="lists">
-      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+      <DragDropContext onDragEnd={onDragEnd} >
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
            <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
