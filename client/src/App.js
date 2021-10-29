@@ -36,6 +36,7 @@ let comparison = {id: 1, name: ['compare here', 'compare here', 'compare here'],
 let productComparison = [{id: 1, name: 'compare here'}, {id: 2, name: 'compare here'}, {id: 3, name: 'compare here'}]
 
 export default function Application(props) {
+   
   const [state, setState] = useState({
     products: [],
     categories: [],
@@ -250,6 +251,7 @@ export default function Application(props) {
          
       );
     });
+    compareArray.push(compareArrayMapped)
   
 
   //update drag and drop stuff for select button
