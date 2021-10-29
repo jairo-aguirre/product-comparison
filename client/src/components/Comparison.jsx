@@ -1,5 +1,6 @@
 // import ProductDetail from "./ProductDetail";
 import "./Product.css";
+import SaveCompareButton from "./SaveCompareButton";
 
 export default function Comparison(props) {
   const productIDs = props.location.selectedIDs || [];
@@ -63,6 +64,12 @@ export default function Comparison(props) {
             ))}
         </div>
         <div>{createProductTable}</div>
+        <br/>
+        <div>
+          <SaveCompareButton>
+            Save
+          </SaveCompareButton>
+        </div>
       </div>
     </div>
   );
