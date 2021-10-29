@@ -33,8 +33,12 @@ class Api::ComparisonsController < ApplicationController
   
     def create
       puts 'comp paramss'
-      puts comparison_params
-      @comparison = Comparison.new(comparison_params)
+      puts comparison_params[:product_ids]
+     
+       @array = comparison_params[:product_ids].split(",")
+       puts "array"
+       puts @array
+      @comparison = Comparison.new(:user_id => comparison_params[:user_id], :product_ids => @array)
   
       if @comparison.save
         render :json => {

@@ -18,7 +18,7 @@ const sendComparison = (products) => {
    
   const data = {
     user_id: 1,
-    product_ids: products.toString()
+    product_ids: products
   }
  
   axios.post('/api/comparisons', formUrlEncoded(data))
@@ -26,7 +26,7 @@ const sendComparison = (products) => {
     console.log('please be okay', data)
   })
   .catch((error) => {
-    console.log('error', error)
+    console.log('error', error.response.data)
   })
 
 }
@@ -47,7 +47,8 @@ export default function Application(props) {
     selected: 1,
     comparison: comparison,
     mode: 'cat',
-    productComparison: productComparison
+    productComparison: productComparison,
+    selected: false
   });
 
   //get the list ids from each droppable area
@@ -64,6 +65,7 @@ export default function Application(props) {
 
   //set selectedProductIDs
   const [selectedProductIDs, setSelectedProductIDs] = useState([]);
+  
  
   //add productIds upon select
   const addProdIDs = (id) => {
@@ -87,6 +89,7 @@ export default function Application(props) {
     });
   }
   
+  const [toggle, setToggle] = useState(0)
 
   let onDragEnd = result => {
     
@@ -117,12 +120,17 @@ export default function Application(props) {
       productComparison.push(value)
       //add this ID to Jairos collection
       addProdIDs(value.id)
-    
+      let selected = true
+      sendComparison(addId)
+      setToggle(value.id)
       //finally set the state so it shows in compare bubble
       setState((prev) => ({ ...prev, 
           
-          comparison: {...comparison, product_ids: addId, comparison, productComparison} }))
+          comparison: {...comparison, product_ids: addId, comparison, productComparison},
+          selected
+         }))
     }
+    
   };
 
 
@@ -202,7 +210,9 @@ export default function Application(props) {
           addProdIDs={addProdIDs}
           removeProdIDs={removeProdIDs}
           handleSelect={handleSelect}
-          state={state}
+          toggle={toggle}
+          
+          
           
         />
         </li>
@@ -292,22 +302,24 @@ export default function Application(props) {
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
+        <div className="compareButton">
         <CompareButton
           selectedIDs={selectedProductIDs}
           features= {state.features}
         />
+         <DeleteButton onClick={onDelete}></DeleteButton>
+         </div>
       </div>
       <div className="lists">
       <DragDropContext onDragEnd={onDragEnd} >
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
            <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
-             {provided.placeholder}
+             
            <div className="container">
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
-             
-             <DeleteButton onClick={onDelete}></DeleteButton>
+            
              
            </div>
            </ul>
@@ -321,7 +333,7 @@ export default function Application(props) {
                  ref={provided.innerRef}
                  {...provided.draggableProps}
                  {...provided.dragHandleProps}>
-                   <h2>Compare</h2>
+          
                  {provided.placeholder}
                  <div className="footer">
                    
