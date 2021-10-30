@@ -6,9 +6,14 @@
 }
 .compareButton {
   position: fixed;
+  display: flex;
+  justify-content: space-around;
   right: 0%;
 }
 .savecompareButton {
   /* position: fixed; */
   right: 0%;
+  width: 18rem;
+  
+ 
 }

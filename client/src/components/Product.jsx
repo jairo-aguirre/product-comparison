@@ -7,6 +7,21 @@ export default function Product(props) {
   
   
   const [selected, setSelected] = useState(false);
+  
+//trying to toggle select on drag
+  // const handleEvent = (event) => {
+  //   console.log('des props', props.toggle)
+  //   if (event.type === "mouseup") {
+      
+    
+  //     if (props.toggle === props.id) {
+  //       setSelected(true)
+  //     }
+  //      } 
+  //  }
+  
+  
+  
 
   const toggleSelected = () => {
     if (selected) {
@@ -23,12 +38,12 @@ export default function Product(props) {
   };
 
   return (
-    <div className="col" >
+    <div className="col"  >
       
       <div className="card">
-        <div className='card-body'>
+        <div className='card-body' >
           <div>
-            {!selected && <i onClick={() => {toggleSelected()}} className="fas fa-compress" id={props.id} name={props.name}></i>}
+            {!selected && <i onClick={() => {toggleSelected()}} className="fas fa-compress" id={props.id} name={props.name} ></i>}
             {selected && <i onClick={() => {toggleSelected()}} className="fas fa-compress-arrows-alt" id={props.id} name={props.name}></i>}
           </div>
           <img src={props.image} className="first-image" alt="" />
