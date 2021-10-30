@@ -61,10 +61,22 @@ export default function Application(props) {
  
   //add productIds upon select
   const addProdIDs = (id) => {
-    setSelectedProductIDs((prev) => {
-      // console.log('add_ID', id);
-      return [...prev, id];
-    });
+    if (selectedProductIDs.length >=3 ) {
+      const IDs = selectedProductIDs
+      IDs.splice(0, 1)
+      setSelectedProductIDs([...IDs, id])
+    }
+    
+      setSelectedProductIDs((prev) => {
+        // console.log('add_ID', id);
+        console.log('selectedIds', [...prev, id])
+        return [...prev, id];
+      });
+
+    
+    
+    
+    
   };
 
   //remove product ids upon unselect
@@ -84,6 +96,7 @@ export default function Application(props) {
     const formUrlEncoded = x => {
       return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
     }
+    console.log('what hecking data are we sending here???', products)
      
     const data = {
       product_ids: products
@@ -111,6 +124,7 @@ export default function Application(props) {
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
+    console.log('is this thinking its a drag end event??')
 
     // dropped outside the list
     if (
@@ -290,6 +304,7 @@ export default function Application(props) {
 
   const handleClick = (mode = 'COMPARE') => {
     // console.log('CLICKED');
+    console.log('selected product ids', selectedProductIDs)
     
     sendFeatures(selectedProductIDs)
     
