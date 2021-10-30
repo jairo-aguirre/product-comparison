@@ -7,7 +7,7 @@ export default function CompareButton(props) {
 
   return (
     
-      <Button variant="contained" onClick={() => {props.handleClick("COMPARE")}}>
+      <Button onClick={() => {props.handleClick("COMPARE")}}>
         Compare
       </Button>
     

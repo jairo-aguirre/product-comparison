@@ -7,9 +7,7 @@ import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import CompBubbleElement from "./components/CompBubbleElement";
-import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import CompareButton from "./components/CompareButton";
 import { useHistory } from "react-router-dom";
 import Comparison from "./components/Comparison"
 
@@ -24,8 +22,6 @@ const sendFeatures = (products) => {
   }
    
   const data = {
-    
-    // product_ids: products.toString()
     product_ids: products
   }
   
@@ -262,7 +258,7 @@ export default function Application(props) {
 
       let id = comparison.id.toString();
       return (
-        <Draggable key={comparison.id} draggableId={id} index={index}>
+        <Draggable key={comparison_id.id} draggableId={id} index={index}>
           {(provided) => (
             <li
               ref={provided.innerRef}
@@ -318,7 +314,7 @@ export default function Application(props) {
         ...comparison,
         product_ids: selectedProductIDs,
         comparison,
-        productComparison,
+        productComparison
       },
     }));
   };
@@ -335,22 +331,15 @@ export default function Application(props) {
           login={login}
           logOut={logOut}
         />
-        
-          
-          <div></div>
         <Category
           categories={state.categories}
           catSelected={state.catSelected}
           handleChange={handleChange}
-        ></Category>
-        <div className="compareButton">
-        <CompareButton
           selectedIDs={selectedProductIDs}
           features={state.features}
           handleClick={handleClick}
-        />
-         <DeleteButton onClick={onDelete}></DeleteButton>
-         </div>
+          onClick={onDelete}
+        ></Category>
       </div>
       {state.mode === COMPARE && 
       <Comparison
@@ -370,6 +359,7 @@ export default function Application(props) {
            <div className="container">
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
+                {provided.placeholder}
             
              
            </div>
