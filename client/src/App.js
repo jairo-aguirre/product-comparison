@@ -16,28 +16,7 @@ const COMPARE = "COMPARE"
 const CAT = "cat"
 let dataArray = {}
 
-const sendFeatures = (products) => {
-  const formUrlEncoded = x => {
-    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-  }
-   
-  const data = {
-    product_ids: products
-  }
-  
-  axios.post('/api/features', formUrlEncoded(data))
-  .then((data) => {
-    
-    dataArray.features = data.data.features
-    dataArray.products = data.data.products
-  })
-  .then(()=> {
 
-  })
-  .catch((error) => {
-    console.log('error', error)
-  })
-}
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -99,6 +78,33 @@ export default function Application(props) {
       // console.log('remPREV', prev2);
       return prev2;
     });
+  }
+
+  const sendFeatures = (products) => {
+    const formUrlEncoded = x => {
+      return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+    }
+     
+    const data = {
+      product_ids: products
+    }
+    
+    axios.post('/api/features', formUrlEncoded(data))
+    .then((data) => {
+      
+      dataArray.features = data.data.features
+      dataArray.products = data.data.products
+    })
+    .then(()=> {
+      
+        setState((prev) => ({ ...prev, mode: "COMPARE" }));
+        console.log('state on click', state)
+        console.log(dataArray)
+      
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
   }
   
   
@@ -286,9 +292,8 @@ export default function Application(props) {
     // console.log('CLICKED');
     
     sendFeatures(selectedProductIDs)
-    setState((prev) => ({ ...prev, mode: "COMPARE" }));
-    console.log('state on click', state)
-    console.log(dataArray)
+    
+    
   };
 
   //update drag and drop stuff for select button
