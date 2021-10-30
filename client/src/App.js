@@ -10,7 +10,35 @@ import CompBubbleElement from "./components/CompBubbleElement";
 import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import CompareButton from "./components/CompareButton";
+import { useHistory } from "react-router-dom";
+import Comparison from "./components/Comparison"
 
+
+const COMPARE = "COMPARE"
+const CAT = "cat"
+let dataArray = {}
+
+const sendFeatures = (products) => {
+  const formUrlEncoded = x => {
+    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+  }
+   
+  const data = {
+    
+    // product_ids: products.toString()
+    product_ids: products
+  }
+  
+  axios.post('/api/features', formUrlEncoded(data))
+  .then((data) => {
+    console.log('please be okay', data)
+    dataArray.features = data.data.features
+    dataArray.products = data.data.products
+  })
+  .catch((error) => {
+    console.log('error', error)
+  })
+}
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -33,7 +61,7 @@ export default function Application(props) {
     catSelected: 1,
     selected: 1,
     comparison: comparison,
-    mode: "cat",
+    mode: CAT,
     productComparison: productComparison
   });
   const { login, getUser, logOut } = useLogin();
@@ -256,6 +284,17 @@ export default function Application(props) {
   );
   compareArray.push(compareArrayMapped);
 
+  const history = useHistory();
+
+  const handleClick = (mode = 'COMPARE') => {
+    // console.log('CLICKED');
+    
+    sendFeatures(selectedProductIDs)
+    setState((prev) => ({ ...prev, mode: "COMPARE" }));
+    console.log('state on click', state)
+    console.log(dataArray)
+  };
+
   //update drag and drop stuff for select button
   const handleSelect = (add, id, value) => {
     const comparison = state.comparison;
@@ -296,6 +335,9 @@ export default function Application(props) {
           login={login}
           logOut={logOut}
         />
+        
+          
+          <div></div>
         <Category
           categories={state.categories}
           catSelected={state.catSelected}
@@ -305,11 +347,20 @@ export default function Application(props) {
         <CompareButton
           selectedIDs={selectedProductIDs}
           features={state.features}
+          handleClick={handleClick}
         />
          <DeleteButton onClick={onDelete}></DeleteButton>
          </div>
       </div>
-      <div className="lists">
+      {state.mode === COMPARE && 
+      <Comparison
+      features={dataArray}
+      
+      />}
+      {state.mode !== "COMPARE" && 
+          
+          
+          <div className="lists">
       <DragDropContext onDragEnd={onDragEnd} >
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -350,6 +401,10 @@ export default function Application(props) {
       </Droppable>
       </DragDropContext>
       </div>
+          
+          
+          }
+      
     </div>
   );
 }

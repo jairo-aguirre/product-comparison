@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   root to: 'products#index'
   resources :products, only: [:index, :show]
   resources :categories, only: [:index]
-  resources :features, only: [:index]
+  resources :features, only: [:index, :create]
   resources :comparisons, only: [:index, :create]
 
   get 'comparisons/index'

@@ -2,14 +2,28 @@
 import "./Product.css";
 import Productlist from "../components/Productlist";
 import SaveCompareButton from "./SaveCompareButton";
+import axios from "axios";
+import {useEffect} from 'react';
 
 export default function Comparison(props) {
-  const productIDs = props.location.selectedIDs || [];
+  console.log('comparison props', props)
+  useEffect(() => {
+   
+    const URL4 = "/api/features"
+
+    axios.get(URL4).then(
+      (all) => {
+        
+        console.log(all)
+      }
+    );
+  }, []);
+  const productIDs = props.selectedIDs || [];
   const productIDsObj = productIDs.reduce((obj, id) => {
     return { ...obj, [id]: true };
   }, {});
 
-  const prodFeatures = props.location.features || [];
+  const prodFeatures = props.features || [];
 
   const prodComparison = prodFeatures.filter(
     (feature) => productIDsObj[feature.product_id]
