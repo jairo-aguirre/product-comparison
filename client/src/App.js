@@ -31,9 +31,12 @@ const sendFeatures = (products) => {
   
   axios.post('/api/features', formUrlEncoded(data))
   .then((data) => {
-    console.log('please be okay', data)
+    
     dataArray.features = data.data.features
     dataArray.products = data.data.products
+  })
+  .then(()=> {
+
   })
   .catch((error) => {
     console.log('error', error)
@@ -102,7 +105,7 @@ export default function Application(props) {
     });
   }
   
-  const [toggle, setToggle] = useState(0)
+  
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
@@ -170,20 +173,18 @@ export default function Application(props) {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
-    const URL4 = "/api/comparisons/index"
+    
 
-    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3), axios.get(URL4)]).then(
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
       (all) => {
         // console.log(all);
 
-        const [first, second, third, fourth] = all;
+        const [first, second, third] = all;
         // console.log(fourth.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
-        const comparison = fourth.data.comparisons;
-        const productComparison = fourth.data.products;
         // console.log('comparison data', comparison)
         // console.log('productcomparison data', productComparison)
         const searchArray = createSearchlist(featuretypes);
@@ -230,7 +231,6 @@ export default function Application(props) {
               addProdIDs={addProdIDs}
               removeProdIDs={removeProdIDs}
               handleSelect={handleSelect}
-              state={state}
             />
           </li>
         )}
@@ -354,7 +354,8 @@ export default function Application(props) {
       </div>
       {state.mode === COMPARE && 
       <Comparison
-      features={dataArray}
+      data={dataArray}
+      
       
       />}
       {state.mode !== "COMPARE" && 

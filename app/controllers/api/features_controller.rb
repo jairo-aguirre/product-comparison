@@ -11,14 +11,16 @@ end
 def create
   puts feature_params
   @array = feature_params[:product_ids].split(",")
-  @features = Feature.find( @array)
+  @features = Feature.where(product_id: @array)
   puts 'features'
   puts @features
+  
   @products = Product.find(@array)
   render :json => {
     features: @features,
     products: @products
   }
+  puts @features
 end
 
 private

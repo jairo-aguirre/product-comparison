@@ -1,87 +1,45 @@
 // import ProductDetail from "./ProductDetail";
 import "./Product.css";
-import Productlist from "../components/Productlist";
-import SaveCompareButton from "./SaveCompareButton";
-import axios from "axios";
-import {useEffect} from 'react';
 
 export default function Comparison(props) {
-  console.log('comparison props', props)
-  useEffect(() => {
-   
-    const URL4 = "/api/features"
-
-    axios.get(URL4).then(
-      (all) => {
-        
-        console.log(all)
-      }
-    );
-  }, []);
-  const productIDs = props.selectedIDs || [];
-  const productIDsObj = productIDs.reduce((obj, id) => {
-    return { ...obj, [id]: true };
-  }, {});
-
-  const prodFeatures = props.features || [];
-
-  const prodComparison = prodFeatures.filter(
-    (feature) => productIDsObj[feature.product_id]
-  );
-
-  const prodComparison2 = {};
-  let prodFeatureNames = [];
-  let prodID = 0;
-  const dontCompare = ["id", "product_id", "created_at", "updated_at"];
-
-  for (const [key, value] of Object.entries(prodComparison)) {
-    for (const [key1, value1] of Object.entries(value)) {
-      if (key1 === "product_id") {
-        if (!prodComparison2[value1]) {
-          prodID = value1;
-          prodComparison2[value1] = {};
-        }
-      }
-      if (!dontCompare.includes(key1)) {
-        prodComparison2[prodID][key1] = value1;
-        if (!prodFeatureNames.includes(key1)) {
-          prodFeatureNames.push(key1);
-        }
-      }
-    }
-  }
-  // console.log('prodComparison2', prodComparison2);
-
-  const createProductTable = prodFeatureNames.map(featureName => {
-    // console.log(featureName);
+  console.log('comparison features', props.data.products)
+  const productNames = props.data.products.map((product) => {
     return (
-      <div className="compareTable">
-        <strong>{featureName}</strong>
-        {productIDs.map((id) => (
-          <div>{prodComparison2[id][featureName]}</div>
-        ))}
-      </div>
-    );
+      <th>{product.name}</th>
+    )
   });
 
+  const productImages = props.data.products.map((product) => {
+    return(
+      <td>
+        <img src={product.image}></img>
+      </td>
+    )
+  })
+  const featureKeys = []
+  for (const feature of props.data.features) {
+    featureKeys.push(Object.keys(props.data.features))
+  }
+  
+  console.log(featureKeys)
   return (
-    <div>
-      <h2>Comparison Table</h2>
-      <div>
-        <div className="compareTable">
-          <strong>Product</strong>
-          {productIDs.map((id) => (
-            <div>{id}</div>
-          ))}
-        </div>
-        <div>{createProductTable}</div>
-        <br/>
-        <div>
-          <SaveCompareButton productIDs={productIDs}>
-            Save
-          </SaveCompareButton>
-        </div>
-      </div>
-    </div>
+    <table>
+    <tr>
+      {productNames}
+    </tr>
+    <tr>
+      {productImages}
+    </tr>
+    <tr>
+      <td>Sue</td>
+      <td>00002</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>Barb</td>
+      <td>00003</td>
+      <td>Green</td>
+    </tr>
+  </table>
   );
 }
