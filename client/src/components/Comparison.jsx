@@ -1,6 +1,8 @@
 // import ProductDetail from "./ProductDetail";
 import "./Product.css";
 import Productlist from "../components/Productlist";
+import SaveCompareButton from "./SaveCompareButton";
+
 export default function Comparison(props) {
   const productIDs = props.location.selectedIDs || [];
   const productIDsObj = productIDs.reduce((obj, id) => {
@@ -34,10 +36,10 @@ export default function Comparison(props) {
       }
     }
   }
-  console.log("prodComparison2", prodComparison2);
+  // console.log('prodComparison2', prodComparison2);
 
-  const createProductTable = prodFeatureNames.map((featureName) => {
-    console.log(featureName);
+  const createProductTable = prodFeatureNames.map(featureName => {
+    // console.log(featureName);
     return (
       <div className="compareTable">
         <strong>{featureName}</strong>
@@ -59,6 +61,12 @@ export default function Comparison(props) {
           ))}
         </div>
         <div>{createProductTable}</div>
+        <br/>
+        <div>
+          <SaveCompareButton productIDs={productIDs}>
+            Save
+          </SaveCompareButton>
+        </div>
       </div>
     </div>
   );

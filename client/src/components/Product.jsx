@@ -3,6 +3,21 @@ import "./Product.css";
 
 export default function Product(props) {
   const [selected, setSelected] = useState(false);
+  
+//trying to toggle select on drag
+  // const handleEvent = (event) => {
+  //   console.log('des props', props.toggle)
+  //   if (event.type === "mouseup") {
+      
+    
+  //     if (props.toggle === props.id) {
+  //       setSelected(true)
+  //     }
+  //      } 
+  //  }
+  
+  
+  
 
   const toggleSelected = () => {
     if (selected) {

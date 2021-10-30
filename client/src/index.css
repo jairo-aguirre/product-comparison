@@ -25,14 +25,14 @@ body {
 }
 .footer {
   margin-top: 1rem;
-
   padding: 1rem;
   background-color: transparent;
-  position: fixed;
-
-  display: flex;
+  height:100%;
   flex-direction: column;
   align-content: space-between;
+  position: fixed;
+  display: flex;
+ 
 }
 .compare-image {
   align-items: stretch;
@@ -51,6 +51,8 @@ body {
 
   margin: 0;
   transition: transform 0.2s;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 ul {

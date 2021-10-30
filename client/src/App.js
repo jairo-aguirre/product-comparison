@@ -11,30 +11,6 @@ import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import CompareButton from "./components/CompareButton";
 
-//function will send comparison info to database, can be put in another file later
-const sendComparison = (products) => {
-  const formUrlEncoded = (x) => {
-    return Object.keys(x).reduce(
-      (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
-      ""
-    );
-  };
-
-  const data = {
-    user_id: 1,
-    product_ids: products.toString(),
-  };
-
-  axios
-    .post("/api/comparisons", formUrlEncoded(data))
-    .then((data) => {
-      console.log("please be okay", data);
-    })
-    .catch((error) => {
-      console.log("error", error);
-    });
-};
-
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -58,7 +34,7 @@ export default function Application(props) {
     selected: 1,
     comparison: comparison,
     mode: "cat",
-    productComparison: productComparison,
+    productComparison: productComparison
   });
   const { login, getUser, logOut } = useLogin();
   //get the list ids from each droppable area
@@ -75,7 +51,8 @@ export default function Application(props) {
 
   //set selectedProductIDs
   const [selectedProductIDs, setSelectedProductIDs] = useState([]);
-
+  
+ 
   //add productIds upon select
   const addProdIDs = (id) => {
     setSelectedProductIDs((prev) => {
@@ -95,7 +72,9 @@ export default function Application(props) {
       // console.log('remPREV', prev2);
       return prev2;
     });
-  };
+  }
+  
+  const [toggle, setToggle] = useState(0)
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
@@ -142,6 +121,7 @@ export default function Application(props) {
         },
       }));
     }
+    
   };
 
   const [open, setOpen] = useState(false);
@@ -162,36 +142,33 @@ export default function Application(props) {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
-    const URL4 = "/api/comparisons/index";
+    const URL4 = "/api/comparisons/index"
 
-    Promise.all([
-      axios.get(URL1),
-      axios.get(URL2),
-      axios.get(URL3),
-      axios.get(URL4),
-    ]).then((all) => {
-      // console.log(all);
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3), axios.get(URL4)]).then(
+      (all) => {
+        // console.log(all);
 
-      const [first, second, third, fourth] = all;
-      console.log(fourth.data);
-      const products = first.data.products;
-      const categories = second.data.categories;
-      const features = third.data.features;
-      const featuretypes = third.data.types;
-      const comparison = fourth.data.comparisons;
-      const productComparison = fourth.data.products;
-      console.log("comparison data", comparison);
-      console.log("productcomparison data", productComparison);
-      const searchArray = createSearchlist(featuretypes);
-      // const searchArray = originalsearchArray.slice(0, 10);
-      setState((prev) => ({
-        ...prev,
-        products,
-        categories,
-        features,
-        searchArray,
-      }));
-    });
+        const [first, second, third, fourth] = all;
+        // console.log(fourth.data);
+        const products = first.data.products;
+        const categories = second.data.categories;
+        const features = third.data.features;
+        const featuretypes = third.data.types;
+        const comparison = fourth.data.comparisons;
+        const productComparison = fourth.data.products;
+        // console.log('comparison data', comparison)
+        // console.log('productcomparison data', productComparison)
+        const searchArray = createSearchlist(featuretypes);
+        // const searchArray = originalsearchArray.slice(0, 10);
+        setState((prev) => ({
+          ...prev,
+          products,
+          categories,
+          features,
+          searchArray
+        }));
+      }
+    );
   }, []);
 
   // const searchList = state.searchArray.filter(
@@ -324,49 +301,54 @@ export default function Application(props) {
           catSelected={state.catSelected}
           handleChange={handleChange}
         ></Category>
+        <div className="compareButton">
         <CompareButton
           selectedIDs={selectedProductIDs}
           features={state.features}
         />
+         <DeleteButton onClick={onDelete}></DeleteButton>
+         </div>
       </div>
       <div className="lists">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <ul
-                className="drag"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {provided.placeholder}
-                <div className="container">
-                  {/* <div className="row">{categoryArray}</div> */}
-                  <div className="row">{productArray}</div>
+      <DragDropContext onDragEnd={onDragEnd} >
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+           <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
+             
+           <div className="container">
+             {/* <div className="row">{categoryArray}</div> */}
+             <div className="row">{productArray}</div>
+            
+             
+           </div>
+           </ul>
+           )}
+           </Droppable>
 
-                  <DeleteButton onClick={onDelete}></DeleteButton>
-                </div>
-              </ul>
-            )}
-          </Droppable>
-
-          <Droppable droppableId="droppable2">
-            {(provided, snapshot) => (
-              <ul
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <h2>Compare</h2>
-                {provided.placeholder}
-                <div className="footer">
-                  {compareArray}
-                  {provided.placeholder}
-                </div>
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
+           <Droppable droppableId="droppable2">
+             {(provided, snapshot) => (
+               
+                 <ul
+                 ref={provided.innerRef}
+                 {...provided.draggableProps}
+                 {...provided.dragHandleProps}>
+          
+                 {provided.placeholder}
+                 <div className="footer">
+                   
+                   {compareArray}
+                   {provided.placeholder}
+                   
+                 
+                 </div>
+                 {provided.placeholder}
+                 </ul>
+                  
+             )}
+          
+          
+      </Droppable>
+      </DragDropContext>
       </div>
     </div>
   );

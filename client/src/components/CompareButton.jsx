@@ -15,10 +15,10 @@ export default function CompareButton(props) {
   };
 
   return (
-    <div className="compareButton" >
+    
       <Button variant="contained" onClick={() => handleClick()}>
         Compare
       </Button>
-    </div>
+    
   );
 }
