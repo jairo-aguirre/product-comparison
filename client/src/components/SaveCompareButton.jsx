@@ -3,9 +3,10 @@ import './Product.css';
 import sendComparison from "../helper/button-functions";
 
 export default function SaveCompareButton(props) {
+  
   return (
     <div className="savecompareButton" >
-      <Button variant="contained" onClick={() => sendComparison(props.productIDs)}>
+      <Button variant="contained" onClick={() => sendComparison(props.productsIDs)}>
         Save
       </Button>
     </div>

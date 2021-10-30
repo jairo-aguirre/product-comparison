@@ -17,6 +17,7 @@ import {
   CardMedia,
 } from "@material-ui/core/";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -77,6 +78,7 @@ export default function Comparison(props) {
   const createProductTable = products.map((product) => {
     return (
       <Grid item xs={12} sm={6} md={3} key={product.id}>
+        
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={product.image} />
           <CardHeader

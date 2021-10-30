@@ -10,6 +10,8 @@ import CompBubbleElement from "./components/CompBubbleElement";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import Comparison from "./components/Comparison"
+import CloseButton from "./components/Button"
+import SaveCompareButton from "./components/SaveCompareButton";
 
 
 const COMPARE = "COMPARE"
@@ -91,6 +93,11 @@ export default function Application(props) {
       console.log('remPREV', prev2);
       return prev2;
     });
+  }
+
+  //function to close compare mode
+  const onClose = () => {
+    setState((prev) => ({ ...prev, mode: "cat" }));
   }
 
   const sendFeatures = (products) => {
@@ -372,11 +379,17 @@ export default function Application(props) {
         ></Category>
       </div>
       {state.mode === COMPARE && 
+      <div>
+        <CloseButton onClose={onClose}/>
+        <SaveCompareButton
+      productsIDs={selectedProductIDs}/>
       <Comparison
       data={dataArray}
       
+      />
       
-      />}
+      
+      </div>}
       {state.mode !== "COMPARE" && 
           
           
