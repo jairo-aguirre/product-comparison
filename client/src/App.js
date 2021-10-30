@@ -61,6 +61,7 @@ export default function Application(props) {
  
   //add productIds upon select
   const addProdIDs = (id) => {
+    
     if (selectedProductIDs.length >=3 ) {
       const IDs = selectedProductIDs
       IDs.splice(0, 1)
@@ -136,12 +137,21 @@ export default function Application(props) {
       return;
     } else {
       //this is for if it drops into droppable2 (comparison area)
-
+      
       const addId = getList(destination.droppableId).product_ids;
+      
 
       let products = getProducts(state);
 
       let value = products[source.index];
+      //make sure two of the same product cannot be added
+      for (const id of selectedProductIDs) {
+        
+        if (id === value.id) {
+          return;
+        }
+        
+      }
 
       //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
       addId.splice(0, 1);
