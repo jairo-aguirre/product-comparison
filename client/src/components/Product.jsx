@@ -38,7 +38,7 @@ export default function Product(props) {
   };
 
   return (
-    <div className="col" onMouseUp={(event) => {handleEvent(event)}} >
+    <div className="col"  >
       
       <div className="card">
         <div className='card-body' >
