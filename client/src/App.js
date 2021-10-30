@@ -10,7 +10,38 @@ import CompBubbleElement from "./components/CompBubbleElement";
 import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import CompareButton from "./components/CompareButton";
+import { useHistory } from "react-router-dom";
+import Comparison from "./components/Comparison"
 
+
+const COMPARE = "COMPARE"
+const CAT = "cat"
+let dataArray = {}
+
+const sendFeatures = (products) => {
+  const formUrlEncoded = x => {
+    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+  }
+   
+  const data = {
+    
+    // product_ids: products.toString()
+    product_ids: products
+  }
+  
+  axios.post('/api/features', formUrlEncoded(data))
+  .then((data) => {
+    
+    dataArray.features = data.data.features
+    dataArray.products = data.data.products
+  })
+  .then(()=> {
+
+  })
+  .catch((error) => {
+    console.log('error', error)
+  })
+}
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -33,7 +64,7 @@ export default function Application(props) {
     catSelected: 1,
     selected: 1,
     comparison: comparison,
-    mode: "cat",
+    mode: CAT,
     productComparison: productComparison
   });
   const { login, getUser, logOut } = useLogin();
@@ -74,7 +105,7 @@ export default function Application(props) {
     });
   }
   
-  const [toggle, setToggle] = useState(0)
+  
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
@@ -142,20 +173,18 @@ export default function Application(props) {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
-    const URL4 = "/api/comparisons/index"
+    
 
-    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3), axios.get(URL4)]).then(
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
       (all) => {
         // console.log(all);
 
-        const [first, second, third, fourth] = all;
+        const [first, second, third] = all;
         // console.log(fourth.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
-        const comparison = fourth.data.comparisons;
-        const productComparison = fourth.data.products;
         // console.log('comparison data', comparison)
         // console.log('productcomparison data', productComparison)
         const searchArray = createSearchlist(featuretypes);
@@ -202,7 +231,6 @@ export default function Application(props) {
               addProdIDs={addProdIDs}
               removeProdIDs={removeProdIDs}
               handleSelect={handleSelect}
-              state={state}
             />
           </li>
         )}
@@ -256,6 +284,17 @@ export default function Application(props) {
   );
   compareArray.push(compareArrayMapped);
 
+  const history = useHistory();
+
+  const handleClick = (mode = 'COMPARE') => {
+    // console.log('CLICKED');
+    
+    sendFeatures(selectedProductIDs)
+    setState((prev) => ({ ...prev, mode: "COMPARE" }));
+    console.log('state on click', state)
+    console.log(dataArray)
+  };
+
   //update drag and drop stuff for select button
   const handleSelect = (add, id, value) => {
     const comparison = state.comparison;
@@ -296,6 +335,9 @@ export default function Application(props) {
           login={login}
           logOut={logOut}
         />
+        
+          
+          <div></div>
         <Category
           categories={state.categories}
           catSelected={state.catSelected}
@@ -305,11 +347,21 @@ export default function Application(props) {
         <CompareButton
           selectedIDs={selectedProductIDs}
           features={state.features}
+          handleClick={handleClick}
         />
          <DeleteButton onClick={onDelete}></DeleteButton>
          </div>
       </div>
-      <div className="lists">
+      {state.mode === COMPARE && 
+      <Comparison
+      data={dataArray}
+      
+      
+      />}
+      {state.mode !== "COMPARE" && 
+          
+          
+          <div className="lists">
       <DragDropContext onDragEnd={onDragEnd} >
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -350,6 +402,10 @@ export default function Application(props) {
       </Droppable>
       </DragDropContext>
       </div>
+          
+          
+          }
+      
     </div>
   );
 }
