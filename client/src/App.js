@@ -87,7 +87,7 @@ export default function Application(props) {
       // console.log('remID', id);
       const prev2 = [...prev];
       prev2.splice(index, 1);
-      // console.log('remPREV', prev2);
+      console.log('remPREV', prev2);
       return prev2;
     });
   }
