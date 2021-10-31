@@ -45,13 +45,13 @@ export default function Product(props) {
       setSelected(false);
       document.getElementById(`heart${props.id}`).style.color = "#989898";
       props.removeProdIDs(props.id);
-      props.handleSelect(false, props.id, props);
+      props.handleToggle(false, props.id, props);
     } else {
       console.log('i am also being toggeled :(')
       props.addProdIDs(props.id);
       setSelected(true);
       document.getElementById(`heart${props.id}`).style.color = "red";
-      props.handleSelect(true, props.id, props);
+      props.handleToggle(true, props.id, props);
     }
   };
 

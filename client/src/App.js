@@ -253,6 +253,7 @@ export default function Application(props) {
               removeProdIDs={removeProdIDs}
               handleSelect={handleSelect}
               selected={selectedProductIDs}
+              handleToggle={handleToggle}
             />
           </li>
         )}
@@ -331,6 +332,36 @@ export default function Application(props) {
         }
       }
     }
+    
+
+    setState((prev) => ({
+      ...prev,
+
+      comparison: {
+        ...comparison,
+        product_ids: selectedProductIDs,
+        comparison,
+        productComparison,
+      },
+    }));
+  };
+
+  const handleToggle = (add, id, value) => {
+    const comparison = state.comparison;
+    const productComparison = state.productComparison;
+    if (add) {
+      productComparison.splice(0, 1);
+      productComparison.push(value);
+      console.log(productComparison)
+    } else {
+      for (const product of productComparison) {
+        if (product.id === id) {
+          let index = productComparison.indexOf(product);
+          productComparison[index] = { id: 1, name: "compare here" };
+        }
+      }
+    }
+    
 
     setState((prev) => ({
       ...prev,
