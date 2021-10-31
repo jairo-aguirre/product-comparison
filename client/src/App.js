@@ -323,6 +323,7 @@ export default function Application(props) {
     if (add) {
       // productComparison.splice(0, 1);
       // productComparison.push(value);
+      // console.log(value)
       // console.log(productComparison)
     } else {
       for (const product of productComparison) {
@@ -332,6 +333,8 @@ export default function Application(props) {
         }
       }
     }
+      
+    
     
 
     setState((prev) => ({
