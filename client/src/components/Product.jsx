@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Product.css";
 
 export default function Product(props) {
@@ -16,19 +16,41 @@ export default function Product(props) {
   //      } 
   //  }
   
-  
+  useEffect(() => {
+    
+    for (const id of props.selected) {
+      if(!selected) {
+        if (props.id === id) {
+          console.log(props.selected)
+          console.log('props staet', props.state)
+          setSelected(true);
+          props.handleSelect(true, id, props);
+          console.log(props.id)
+          document.getElementById(`heart${id}`).style.color = "red";
+        }
+       
+      } 
+      if (!props.selected.includes(props.id)) {
+        setSelected(false)
+        document.getElementById(`heart${props.id}`).style.color = "#989898";
+      }
+      
+    }
+    // Side-effect!
+  }, [props.selected]);
   
 
   const toggleSelected = () => {
     if (selected) {
       setSelected(false);
-      document.getElementById(`heart${props.index}`).style.color = "#989898";
+      document.getElementById(`heart${props.id}`).style.color = "#989898";
       props.removeProdIDs(props.id);
       props.handleSelect(false, props.id, props);
     } else {
+      console.log('i am also being toggeled :(')
       props.addProdIDs(props.id);
       setSelected(true);
-      document.getElementById(`heart${props.index}`).style.color = "red";
+      document.getElementById(`heart${props.id}`).style.color = "red";
       props.handleSelect(true, props.id, props);
     }
   };
@@ -36,7 +58,7 @@ export default function Product(props) {
   return (
     <div className="col">
       <div className="card">
-        <span id={`heart${props.index}`} className="heart">
+        <span id={`heart${props.id}`} className="heart">
           {!selected && (
             <i
               onClick={() => {

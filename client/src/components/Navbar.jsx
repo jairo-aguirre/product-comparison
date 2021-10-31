@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import MenuIcon from "@material-ui/icons/Menu";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import Search from "../components/Search";
 import SearchIcon from "@material-ui/icons/Search";
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ export default function Navbar(props) {
           aria-label="menu"
           className={classes.menuButton}
         >
-          <MenuIcon onClick={props.handleToggle} />
+          <LocalOfferIcon fontSize="large" />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           PriceCompare
