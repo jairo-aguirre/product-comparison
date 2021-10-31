@@ -8,7 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
-
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import {
   Grid,
   Card,
@@ -113,7 +113,12 @@ export default function Comparison(props) {
               })}
             </List>
             <Divider />
-            <Typography variant="body2">{`$${product.price_cents}`}</Typography>
+            <Typography variant="body2">
+              {`$${product.price_cents}`}
+              {props.login.status && (
+                <LoyaltyIcon style={{ color: green[500] }} />
+              )}
+            </Typography>
             <Link
               href={`${product.url}`}
               variant="body2"
