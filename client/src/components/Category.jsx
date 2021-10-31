@@ -1,8 +1,11 @@
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import AppBar from "@material-ui/core/AppBar";
 import DeleteButton from "./DeleteButton";
 import CompareButton from "./CompareButton";
+import {
+  Grid,
+  Tab,
+  Tabs,
+  AppBar
+} from "@material-ui/core/";
 
 export default function Category(props) {
   const categoryArray = props.categories.map((category, index) => {
@@ -18,26 +21,45 @@ export default function Category(props) {
 
   return (
     <AppBar position="static" color="default">
-      <Tabs
-        value={props.catSelected}
-        onChange={(e, value) => props.handleChange(value)}
-        indicatorColor="primary"
-        textColor="primary"
-        variant="scrollable"
-        scrollButtons="auto"
-        aria-label="scrollable auto tabs example"
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        {categoryArray}
-       
-        <CompareButton
-        selectedIDs={props.selectedProductIDs}
-        features={props.features}
-        handleClick={props.handleClick}
-        />
-        <DeleteButton onClick={props.onClick}/>
-        
-      </Tabs>
-      
+        <Grid item xs={10}>
+          <Tabs
+            value={props.catSelected}
+            onChange={(e, value) => props.handleChange(value)}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="scrollable auto tabs example"
+          >
+            {categoryArray}
+          </Tabs>
+        </Grid>
+        <Grid item xs={2}>
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+          >
+            <CompareButton
+              selectedIDs={props.selectedProductIDs}
+              features={props.features}
+              handleClick={props.handleClick}
+            />
+            <DeleteButton
+              // variant="outlined"
+              onClick={props.onClick}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
     </AppBar>
   );
 }
