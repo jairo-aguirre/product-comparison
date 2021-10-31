@@ -16,31 +16,35 @@ export default function Product(props) {
   //      } 
   //  }
   
+  
   useEffect(() => {
     
-    for (const id of props.selected) {
+    
+    
       if(!selected) {
-        if (props.id === id) {
+        if (props.selected.includes(props.id)) {
           console.log(props.selected)
           console.log('props staet', props.state)
           setSelected(true);
-          props.handleSelect(true, id, props);
+          props.handleSelect(true, props.id, props);
           console.log(props.id)
-          document.getElementById(`heart${id}`).style.color = "red";
+          document.getElementById(`heart${props.id}`).style.color = "red";
         }
        
       } 
       if (!props.selected.includes(props.id)) {
+        console.log('ive been activated')
         setSelected(false)
         document.getElementById(`heart${props.id}`).style.color = "#989898";
       }
       
-    }
+    
     // Side-effect!
   }, [props.selected]);
   
 
   const toggleSelected = () => {
+    
     if (selected) {
       setSelected(false);
       document.getElementById(`heart${props.id}`).style.color = "#989898";

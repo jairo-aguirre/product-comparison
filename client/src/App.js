@@ -275,7 +275,9 @@ export default function Application(props) {
       { id: 2, name: "compare here" },
       { id: 3, name: "compare here" },
     ];
-    setSelectedProductIDs([]);
+    let IDs = selectedProductIDs
+    IDs = []
+    setSelectedProductIDs([...IDs])
     setState((prev) => ({ ...prev, comparison, productComparison }));
   };
 
