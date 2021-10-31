@@ -1,5 +1,5 @@
 // import ProductDetail from "./ProductDetail";
-import "./Product.css";
+// import "./Product.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Divider from "@material-ui/core/Divider";
@@ -9,6 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import { green } from "@material-ui/core/colors";
 import {
   Grid,
   Card,
