@@ -1,6 +1,9 @@
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
+import DeleteButton from "./DeleteButton";
+import CompareButton from "./CompareButton";
+
 export default function Category(props) {
   const categoryArray = props.categories.map((category, index) => {
     return (
@@ -25,7 +28,16 @@ export default function Category(props) {
         aria-label="scrollable auto tabs example"
       >
         {categoryArray}
+       
+        <CompareButton
+        selectedIDs={props.selectedProductIDs}
+        features={props.features}
+        handleClick={props.handleClick}
+        />
+        <DeleteButton onClick={props.onClick}/>
+        
       </Tabs>
+      
     </AppBar>
   );
 }

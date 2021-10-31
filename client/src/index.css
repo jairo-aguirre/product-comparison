@@ -23,6 +23,7 @@ body {
 .lists {
   display: flex;
 }
+
 .footer {
   margin-top: 1rem;
   padding: 1rem;

@@ -15,6 +15,7 @@ const sendComparison = (products) => {
   axios.post('/api/comparisons', formUrlEncoded(data))
   .then((data) => {
     console.log('please be okay', data)
+    
   })
   .catch((error) => {
     console.log('error', error)

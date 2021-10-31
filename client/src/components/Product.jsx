@@ -26,9 +26,9 @@ export default function Product(props) {
       props.removeProdIDs(props.id);
       props.handleSelect(false, props.id, props);
     } else {
+      props.addProdIDs(props.id);
       setSelected(true);
       document.getElementById(`heart${props.index}`).style.color = "red";
-      props.addProdIDs(props.id);
       props.handleSelect(true, props.id, props);
     }
   };
