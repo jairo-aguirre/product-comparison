@@ -12,10 +12,12 @@ import { useHistory } from "react-router-dom";
 import Comparison from "./components/Comparison"
 import CloseButton from "./components/Button"
 import SaveCompareButton from "./components/SaveCompareButton";
+import RenderSave from "./components/RenderSave";
 
 
 const COMPARE = "COMPARE"
 const CAT = "cat"
+const SAVE = "SAVE"
 let dataArray = {}
 
 
@@ -99,7 +101,28 @@ export default function Application(props) {
   const onClose = () => {
     setState((prev) => ({ ...prev, mode: "cat" }));
   }
-
+  const sendComparison = (products) => {
+    const formUrlEncoded = x => {
+      return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+    }
+     
+    const data = {
+      user_id: 1,
+      // product_ids: products.toString()
+      product_ids: products
+    }
+    
+    axios.post('/api/comparisons', formUrlEncoded(data))
+    .then(() => {
+      console.log('i worked')
+      setState((prev) => ({ ...prev, mode: "COMPARE" }));
+     
+      
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
+  }
   const sendFeatures = (products) => {
     const formUrlEncoded = x => {
       return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
@@ -378,11 +401,16 @@ export default function Application(props) {
           onClick={onDelete}
         ></Category>
       </div>
+      {state.mode === SAVE &&
+      <div>
+        <RenderSave/>
+        </div>}
       {state.mode === COMPARE && 
       <div>
         <CloseButton onClose={onClose}/>
         <SaveCompareButton
-      productsIDs={selectedProductIDs}/>
+      productsIDs={selectedProductIDs}
+      sendComparison={sendComparison}/>
       <Comparison
       data={dataArray}
       
@@ -390,7 +418,7 @@ export default function Application(props) {
       
       
       </div>}
-      {state.mode !== "COMPARE" && 
+      {state.mode === "cat" && 
           
           
           <div className="lists">
