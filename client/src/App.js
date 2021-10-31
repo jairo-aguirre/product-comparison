@@ -9,15 +9,13 @@ import Navbar from "./components/Navbar";
 import CompBubbleElement from "./components/CompBubbleElement";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
-import Comparison from "./components/Comparison"
-import CloseButton from "./components/Button"
+import Comparison from "./components/Comparison";
+import CloseButton from "./components/Button";
+import Box from "@material-ui/core/Box";
 import SaveCompareButton from "./components/SaveCompareButton";
-
-
-const COMPARE = "COMPARE"
-const CAT = "cat"
-let dataArray = {}
-
+const COMPARE = "COMPARE";
+const CAT = "cat";
+let dataArray = {};
 
 //declare first state for comparison
 let comparison = {
@@ -42,7 +40,7 @@ export default function Application(props) {
     selected: 1,
     comparison: comparison,
     mode: CAT,
-    productComparison: productComparison
+    productComparison: productComparison,
   });
   const { login, getUser, logOut } = useLogin();
   //get the list ids from each droppable area
@@ -59,27 +57,20 @@ export default function Application(props) {
 
   //set selectedProductIDs
   const [selectedProductIDs, setSelectedProductIDs] = useState([]);
-  
- 
+
   //add productIds upon select
   const addProdIDs = (id) => {
-    
-    if (selectedProductIDs.length >=3 ) {
-      const IDs = selectedProductIDs
-      IDs.splice(0, 1)
-      setSelectedProductIDs([...IDs, id])
+    if (selectedProductIDs.length >= 3) {
+      const IDs = selectedProductIDs;
+      IDs.splice(0, 1);
+      setSelectedProductIDs([...IDs, id]);
     }
-    
-      setSelectedProductIDs((prev) => {
-        // console.log('add_ID', id);
-        console.log('selectedIds', [...prev, id])
-        return [...prev, id];
-      });
 
-    
-    
-    
-    
+    setSelectedProductIDs((prev) => {
+      // console.log('add_ID', id);
+      console.log("selectedIds", [...prev, id]);
+      return [...prev, id];
+    });
   };
 
   //remove product ids upon unselect
@@ -90,49 +81,48 @@ export default function Application(props) {
       // console.log('remID', id);
       const prev2 = [...prev];
       prev2.splice(index, 1);
-      console.log('remPREV', prev2);
+      console.log("remPREV", prev2);
       return prev2;
     });
-  }
+  };
 
   //function to close compare mode
   const onClose = () => {
     setState((prev) => ({ ...prev, mode: "cat" }));
-  }
+  };
 
   const sendFeatures = (products) => {
-    const formUrlEncoded = x => {
-      return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-    }
-    console.log('what hecking data are we sending here???', products)
-     
+    const formUrlEncoded = (x) => {
+      return Object.keys(x).reduce(
+        (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+        ""
+      );
+    };
+    console.log("what hecking data are we sending here???", products);
+
     const data = {
-      product_ids: products
-    }
-    
-    axios.post('/api/features', formUrlEncoded(data))
-    .then((data) => {
-      
-      dataArray.features = data.data.features
-      dataArray.products = data.data.products
-    })
-    .then(()=> {
-      
+      product_ids: products,
+    };
+
+    axios
+      .post("/api/features", formUrlEncoded(data))
+      .then((data) => {
+        dataArray.features = data.data.features;
+        dataArray.products = data.data.products;
+      })
+      .then(() => {
         setState((prev) => ({ ...prev, mode: "COMPARE" }));
-        console.log('state on click', state)
-        console.log(dataArray)
-      
-    })
-    .catch((error) => {
-      console.log('error', error)
-    })
-  }
-  
-  
+        console.log("state on click", state);
+        console.log(dataArray);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
-    console.log('is this thinking its a drag end event??')
+    console.log("is this thinking its a drag end event??");
 
     // dropped outside the list
     if (
@@ -144,20 +134,17 @@ export default function Application(props) {
       return;
     } else {
       //this is for if it drops into droppable2 (comparison area)
-      
+
       const addId = getList(destination.droppableId).product_ids;
-      
 
       let products = getProducts(state);
 
       let value = products[source.index];
       //make sure two of the same product cannot be added
       for (const id of selectedProductIDs) {
-        
         if (id === value.id) {
           return;
         }
-        
       }
 
       //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
@@ -185,10 +172,9 @@ export default function Application(props) {
         },
       }));
     }
-    
   };
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const handleChange = (catSelected, mode = "cat") => {
     //set selection to the value selected
@@ -206,7 +192,6 @@ export default function Application(props) {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
-    
 
     Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
       (all) => {
@@ -227,7 +212,7 @@ export default function Application(props) {
           products,
           categories,
           features,
-          searchArray
+          searchArray,
         }));
       }
     );
@@ -319,13 +304,11 @@ export default function Application(props) {
 
   const history = useHistory();
 
-  const handleClick = (mode = 'COMPARE') => {
+  const handleClick = (mode = "COMPARE") => {
     // console.log('CLICKED');
-    console.log('selected product ids', selectedProductIDs)
-    
-    sendFeatures(selectedProductIDs)
-    
-    
+    console.log("selected product ids", selectedProductIDs);
+
+    sendFeatures(selectedProductIDs);
   };
 
   //update drag and drop stuff for select button
@@ -351,7 +334,7 @@ export default function Application(props) {
         ...comparison,
         product_ids: selectedProductIDs,
         comparison,
-        productComparison
+        productComparison,
       },
     }));
   };
@@ -378,67 +361,53 @@ export default function Application(props) {
           onClick={onDelete}
         ></Category>
       </div>
-      {state.mode === COMPARE && 
-      <div>
-        <CloseButton onClose={onClose}/>
-        <SaveCompareButton
-      productsIDs={selectedProductIDs}/>
-      <Comparison
-      data={dataArray}
-      
-      />
-      
-      
-      </div>}
-      {state.mode !== "COMPARE" && 
-          
-          
-          <div className="lists">
-      <DragDropContext onDragEnd={onDragEnd} >
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-           <ul className="drag" {...provided.droppableProps} ref={provided.innerRef}>
-             
-           <div className="container">
-             {/* <div className="row">{categoryArray}</div> */}
-             <div className="row">{productArray}</div>
-                {provided.placeholder}
-            
-             
-           </div>
-           </ul>
-           )}
-           </Droppable>
+      {state.mode === COMPARE && (
+        <div>
+          <Box display="flex" justifyContent="space-between">
+            <CloseButton onClose={onClose} />
+            <SaveCompareButton productsIDs={selectedProductIDs} login={login} />
+          </Box>
+          <Comparison data={dataArray} />
+        </div>
+      )}
+      {state.mode !== "COMPARE" && (
+        <div className="lists">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <ul
+                  className="drag"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <div className="container">
+                    {/* <div className="row">{categoryArray}</div> */}
+                    <div className="row">{productArray}</div>
+                    {provided.placeholder}
+                  </div>
+                </ul>
+              )}
+            </Droppable>
 
-           <Droppable droppableId="droppable2">
-             {(provided, snapshot) => (
-               
-                 <ul
-                 ref={provided.innerRef}
-                 {...provided.draggableProps}
-                 {...provided.dragHandleProps}>
-          
-                 {provided.placeholder}
-                 <div className="footer">
-                   
-                   {compareArray}
-                   {provided.placeholder}
-                   
-                 
-                 </div>
-                 {provided.placeholder}
-                 </ul>
-                  
-             )}
-          
-          
-      </Droppable>
-      </DragDropContext>
-      </div>
-          
-          
-          }
-      
+            <Droppable droppableId="droppable2">
+              {(provided, snapshot) => (
+                <ul
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  {provided.placeholder}
+                  <div className="footer">
+                    {compareArray}
+                    {provided.placeholder}
+                  </div>
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      )}
     </div>
   );
 }

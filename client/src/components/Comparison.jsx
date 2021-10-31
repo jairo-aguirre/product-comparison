@@ -5,9 +5,10 @@ import Rating from "@material-ui/lab/Rating";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Link from "@material-ui/core/Link";
+
 import {
   Grid,
   Card,
@@ -17,7 +18,6 @@ import {
   CardMedia,
 } from "@material-ui/core/";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -26,12 +26,15 @@ const useStyles = makeStyles((theme) => ({
   card: {
     transition: "transform 0.15s ease-in-out",
     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-    height: "45vw",
+    height: "100%",
   },
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9,
     marginTop: "30",
+  },
+  rightAlignItem: {
+    marginLeft: "auto",
   },
 }));
 
@@ -78,7 +81,6 @@ export default function Comparison(props) {
   const createProductTable = products.map((product) => {
     return (
       <Grid item xs={12} sm={6} md={3} key={product.id}>
-        
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={product.image} />
           <CardHeader
@@ -96,7 +98,7 @@ export default function Comparison(props) {
             <Divider />
             <List>
               {prodFeatureNames.map((featurename, subindex) => {
-                if (prodComparison2[product.id][featurename])
+                if (prodComparison2[product.id][featurename]) {
                   return (
                     <ListItem key={subindex} alignItems="flex-start">
                       <ListItemText
@@ -107,12 +109,19 @@ export default function Comparison(props) {
                       />
                     </ListItem>
                   );
+                }
               })}
             </List>
             <Divider />
-            <Typography variant="body2" gutterBottom>
-              {`$${product.price_cents}`}
-            </Typography>
+            <Typography variant="body2">{`$${product.price_cents}`}</Typography>
+            <Link
+              href={`${product.url}`}
+              variant="body2"
+              color="secondary"
+              className={classes.rightAlignItem}
+            >
+              SHOP HERE
+            </Link>
           </CardContent>
         </Card>
       </Grid>
