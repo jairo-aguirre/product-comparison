@@ -9,7 +9,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
-import { green } from "@material-ui/core/colors";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { red } from "@material-ui/core/colors";
 import {
   Grid,
   Card,
@@ -96,14 +97,19 @@ export default function Comparison(props) {
                 readOnly
               />
             </Typography>
-            <Divider />
+            <Divider light />
             <List>
               {prodFeatureNames.map((featurename, subindex) => {
                 if (prodComparison2[product.id][featurename]) {
                   return (
                     <ListItem key={subindex} alignItems="flex-start">
+                      <ListItemIcon>
+                        <AddCircleOutlineIcon
+                          fontSize="small"
+                          color="primary"
+                        />
+                      </ListItemIcon>
                       <ListItemText
-                        primaryTypographyProps={{ variant: "body2" }}
                         primary={`${featurename} : ${
                           prodComparison2[product.id][featurename]
                         }`}
@@ -113,13 +119,22 @@ export default function Comparison(props) {
                 }
               })}
             </List>
-            <Divider />
-            <Typography variant="body2">
-              {`$${product.price_cents}`}
-              {props.login.status && (
-                <LoyaltyIcon style={{ color: green[500] }} />
+            <Divider light />
+            <Grid container justify="space-between">
+              <Typography variant="body2" align="left">
+                {`$${product.price_cents}`}
+              </Typography>
+              {product.sale && (
+                <Typography
+                  variant="body2"
+                  style={{ color: red[500] }}
+                  align="right"
+                >
+                  <LoyaltyIcon style={{ color: red[500] }} />
+                  OnSale
+                </Typography>
               )}
-            </Typography>
+            </Grid>
             <Link
               href={`${product.url}`}
               variant="body2"
