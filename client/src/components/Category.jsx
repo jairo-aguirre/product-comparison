@@ -28,16 +28,14 @@ export default function Category(props) {
         aria-label="scrollable auto tabs example"
       >
         {categoryArray}
-       
+
         <CompareButton
-        selectedIDs={props.selectedProductIDs}
-        features={props.features}
-        handleClick={props.handleClick}
+          selectedIDs={props.selectedProductIDs}
+          features={props.features}
+          handleClick={props.handleClick}
         />
-        <DeleteButton onClick={props.onClick}/>
-        
+        <DeleteButton onClick={props.onClick} />
       </Tabs>
-      
     </AppBar>
   );
 }
