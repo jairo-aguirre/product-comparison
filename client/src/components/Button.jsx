@@ -1,7 +1,11 @@
-export default function Button(props) {
+import Button from "@material-ui/core/Button";
+
+export default function CloseButton(props) {
   return (
-    <button onClick={props.onClick} id={props.id} name={props.name}>
-      {props.children}
-    </button>
+    <div className="savecompareButton" >
+    <Button variant="contained" onClick={props.onClose} id={props.id}>
+      Close
+    </Button>
+    </div>
   );
 }

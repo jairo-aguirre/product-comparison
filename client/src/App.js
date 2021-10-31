@@ -7,41 +7,18 @@ import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import CompBubbleElement from "./components/CompBubbleElement";
-import DeleteButton from "./components/DeleteButton";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import CompareButton from "./components/CompareButton";
 import { useHistory } from "react-router-dom";
 import Comparison from "./components/Comparison"
+import CloseButton from "./components/Button"
+import SaveCompareButton from "./components/SaveCompareButton";
 
 
 const COMPARE = "COMPARE"
 const CAT = "cat"
 let dataArray = {}
 
-const sendFeatures = (products) => {
-  const formUrlEncoded = x => {
-    return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-  }
-   
-  const data = {
-    
-    // product_ids: products.toString()
-    product_ids: products
-  }
-  
-  axios.post('/api/features', formUrlEncoded(data))
-  .then((data) => {
-    
-    dataArray.features = data.data.features
-    dataArray.products = data.data.products
-  })
-  .then(()=> {
 
-  })
-  .catch((error) => {
-    console.log('error', error)
-  })
-}
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -86,10 +63,23 @@ export default function Application(props) {
  
   //add productIds upon select
   const addProdIDs = (id) => {
-    setSelectedProductIDs((prev) => {
-      // console.log('add_ID', id);
-      return [...prev, id];
-    });
+    
+    if (selectedProductIDs.length >=3 ) {
+      const IDs = selectedProductIDs
+      IDs.splice(0, 1)
+      setSelectedProductIDs([...IDs, id])
+    }
+    
+      setSelectedProductIDs((prev) => {
+        // console.log('add_ID', id);
+        console.log('selectedIds', [...prev, id])
+        return [...prev, id];
+      });
+
+    
+    
+    
+    
   };
 
   //remove product ids upon unselect
@@ -100,15 +90,49 @@ export default function Application(props) {
       // console.log('remID', id);
       const prev2 = [...prev];
       prev2.splice(index, 1);
-      // console.log('remPREV', prev2);
+      console.log('remPREV', prev2);
       return prev2;
     });
+  }
+
+  //function to close compare mode
+  const onClose = () => {
+    setState((prev) => ({ ...prev, mode: "cat" }));
+  }
+
+  const sendFeatures = (products) => {
+    const formUrlEncoded = x => {
+      return Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+    }
+    console.log('what hecking data are we sending here???', products)
+     
+    const data = {
+      product_ids: products
+    }
+    
+    axios.post('/api/features', formUrlEncoded(data))
+    .then((data) => {
+      
+      dataArray.features = data.data.features
+      dataArray.products = data.data.products
+    })
+    .then(()=> {
+      
+        setState((prev) => ({ ...prev, mode: "COMPARE" }));
+        console.log('state on click', state)
+        console.log(dataArray)
+      
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
   }
   
   
 
   let onDragEnd = (result) => {
     const { source, destination } = result;
+    console.log('is this thinking its a drag end event??')
 
     // dropped outside the list
     if (
@@ -120,12 +144,21 @@ export default function Application(props) {
       return;
     } else {
       //this is for if it drops into droppable2 (comparison area)
-
+      
       const addId = getList(destination.droppableId).product_ids;
+      
 
       let products = getProducts(state);
 
       let value = products[source.index];
+      //make sure two of the same product cannot be added
+      for (const id of selectedProductIDs) {
+        
+        if (id === value.id) {
+          return;
+        }
+        
+      }
 
       //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
       addId.splice(0, 1);
@@ -262,7 +295,7 @@ export default function Application(props) {
 
       let id = comparison.id.toString();
       return (
-        <Draggable key={comparison.id} draggableId={id} index={index}>
+        <Draggable key={comparison_id.id} draggableId={id} index={index}>
           {(provided) => (
             <li
               ref={provided.innerRef}
@@ -288,11 +321,11 @@ export default function Application(props) {
 
   const handleClick = (mode = 'COMPARE') => {
     // console.log('CLICKED');
+    console.log('selected product ids', selectedProductIDs)
     
     sendFeatures(selectedProductIDs)
-    setState((prev) => ({ ...prev, mode: "COMPARE" }));
-    console.log('state on click', state)
-    console.log(dataArray)
+    
+    
   };
 
   //update drag and drop stuff for select button
@@ -318,7 +351,7 @@ export default function Application(props) {
         ...comparison,
         product_ids: selectedProductIDs,
         comparison,
-        productComparison,
+        productComparison
       },
     }));
   };
@@ -335,29 +368,28 @@ export default function Application(props) {
           login={login}
           logOut={logOut}
         />
-        
-          
-          <div></div>
         <Category
           categories={state.categories}
           catSelected={state.catSelected}
           handleChange={handleChange}
-        ></Category>
-        <div className="compareButton">
-        <CompareButton
           selectedIDs={selectedProductIDs}
           features={state.features}
           handleClick={handleClick}
-        />
-         <DeleteButton onClick={onDelete}></DeleteButton>
-         </div>
+          onClick={onDelete}
+        ></Category>
       </div>
       {state.mode === COMPARE && 
+      <div>
+        <CloseButton onClose={onClose}/>
+        <SaveCompareButton
+      productsIDs={selectedProductIDs}/>
       <Comparison
       data={dataArray}
       
+      />
       
-      />}
+      
+      </div>}
       {state.mode !== "COMPARE" && 
           
           
@@ -370,6 +402,7 @@ export default function Application(props) {
            <div className="container">
              {/* <div className="row">{categoryArray}</div> */}
              <div className="row">{productArray}</div>
+                {provided.placeholder}
             
              
            </div>

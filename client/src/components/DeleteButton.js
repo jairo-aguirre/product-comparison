@@ -4,6 +4,6 @@ import './Product.css';
 export default function DeleteButton(props) {
  
   return (
-       <Button onClick={props.onClick} variant='contained'>Delete</Button> 
+       <Button onClick={props.onClick}>Delete</Button> 
   )
 }
