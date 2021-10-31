@@ -63,14 +63,17 @@ export default function Application(props) {
     if (selectedProductIDs.length >= 3) {
       const IDs = selectedProductIDs;
       IDs.splice(0, 1);
+      console.log('i am the selected ids in the add func', IDs)
       setSelectedProductIDs([...IDs, id]);
+    } else {
+      setSelectedProductIDs((prev) => {
+        // console.log('add_ID', id);
+        console.log("selectedIds", [...prev, id]);
+        return [...prev, id];
+      });
     }
 
-    setSelectedProductIDs((prev) => {
-      // console.log('add_ID', id);
-      console.log("selectedIds", [...prev, id]);
-      return [...prev, id];
-    });
+    
   };
 
   //remove product ids upon unselect
@@ -148,9 +151,9 @@ export default function Application(props) {
       }
 
       //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
-      addId.splice(0, 1);
-      //put the new value in at the end
-      addId.push(value.id.toString());
+      // addId.splice(0, 1);
+      // //put the new value in at the end
+      // addId.push(value.id.toString());
       let comparison = state.comparison;
 
       let productComparison = state.productComparison;
@@ -166,7 +169,7 @@ export default function Application(props) {
 
         comparison: {
           ...comparison,
-          product_ids: addId,
+          // product_ids: addId,
           comparison,
           productComparison,
         },
@@ -249,6 +252,8 @@ export default function Application(props) {
               addProdIDs={addProdIDs}
               removeProdIDs={removeProdIDs}
               handleSelect={handleSelect}
+              selected={selectedProductIDs}
+              handleToggle={handleToggle}
             />
           </li>
         )}
@@ -270,7 +275,9 @@ export default function Application(props) {
       { id: 2, name: "compare here" },
       { id: 3, name: "compare here" },
     ];
-    setSelectedProductIDs([]);
+    let IDs = selectedProductIDs
+    IDs = []
+    setSelectedProductIDs([...IDs])
     setState((prev) => ({ ...prev, comparison, productComparison }));
   };
 
@@ -316,8 +323,10 @@ export default function Application(props) {
     const comparison = state.comparison;
     const productComparison = state.productComparison;
     if (add) {
-      productComparison.splice(0, 1);
-      productComparison.push(value);
+      // productComparison.splice(0, 1);
+      // productComparison.push(value);
+      // console.log(value)
+      // console.log(productComparison)
     } else {
       for (const product of productComparison) {
         if (product.id === id) {
@@ -326,6 +335,38 @@ export default function Application(props) {
         }
       }
     }
+      
+    
+    
+
+    setState((prev) => ({
+      ...prev,
+
+      comparison: {
+        ...comparison,
+        product_ids: selectedProductIDs,
+        comparison,
+        productComparison,
+      },
+    }));
+  };
+
+  const handleToggle = (add, id, value) => {
+    const comparison = state.comparison;
+    const productComparison = state.productComparison;
+    if (add) {
+      productComparison.splice(0, 1);
+      productComparison.push(value);
+      console.log(productComparison)
+    } else {
+      for (const product of productComparison) {
+        if (product.id === id) {
+          let index = productComparison.indexOf(product);
+          productComparison[index] = { id: 1, name: "compare here" };
+        }
+      }
+    }
+    
 
     setState((prev) => ({
       ...prev,
