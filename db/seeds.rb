@@ -223,10 +223,10 @@ end
     typeOf: product["type"],
     pattern: product["pattern"],
     fabric: product["fabric"],
-    material1: ["material1"],
-    material2: ["material2"],
-    material3: ["material3"],
-    material4: ["material4"]
+    material1: product["material1"],
+    material2: product["material2"],
+    material3: product["material3"],
+    material4: product["material4"]
   )
 end
 
@@ -240,10 +240,10 @@ end
     typeOf: product["type"],
     pattern: product["pattern"],
     fabric: product["fabric"],
-    material1: ["material1"],
-    material2: ["material2"],
-    material3: ["material3"],
-    material4: ["material4"]
+    material1: product["material1"],
+    material2: product["material2"],
+    material3: product["material3"],
+    material4: product["material4"]
   )
 end
 
