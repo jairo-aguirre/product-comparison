@@ -120,8 +120,8 @@ h1 {
 
 .first-image {
   width: 100%;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-radius: 15px;
+  
 }
 
 @keyframes fadeInOut {
