@@ -13,6 +13,8 @@ import Comparison from "./components/Comparison";
 import CloseButton from "./components/Button";
 import Box from "@material-ui/core/Box";
 import SaveCompareButton from "./components/SaveCompareButton";
+
+//set constants for modes
 const COMPARE = "COMPARE";
 const CAT = "cat";
 let dataArray = {};
@@ -43,6 +45,7 @@ export default function Application(props) {
     productComparison: productComparison,
   });
   const { login, getUser, logOut } = useLogin();
+
   //get the list ids from each droppable area
   let id2List = {
     id: "products",
@@ -92,6 +95,7 @@ export default function Application(props) {
     setState((prev) => ({ ...prev, mode: "cat" }));
   };
 
+  //function to send features to database and retrieve it to render in comparison
   const sendFeatures = (products) => {
     const formUrlEncoded = (x) => {
       return Object.keys(x).reduce(
@@ -99,7 +103,6 @@ export default function Application(props) {
         ""
       );
     };
-    console.log("what hecking data are we sending here???", products);
 
     const data = {
       product_ids: products,
@@ -113,19 +116,19 @@ export default function Application(props) {
       })
       .then(() => {
         setState((prev) => ({ ...prev, mode: "COMPARE" }));
-        console.log("state on click", state);
-        console.log(dataArray);
+       
       })
       .catch((error) => {
-        console.log("error", error);
+        //console.log("error", error);
       });
   };
 
-  let onDragEnd = (result) => {
+  //registers drag end event
+  const onDragEnd = (result) => {
     const { source, destination } = result;
-    console.log("is this thinking its a drag end event??");
+    
 
-    // dropped outside the list
+    // dropped outside the list or in product list
     if (
       !destination ||
       destination.droppableId === "droppable" ||
@@ -148,13 +151,10 @@ export default function Application(props) {
         }
       }
 
-      //take out the last id to limit it at 3 (we should also do this for Jairos select at some point)
-      // addId.splice(0, 1);
-      // //put the new value in at the end
-      // addId.push(value.id.toString());
       let comparison = state.comparison;
 
       let productComparison = state.productComparison;
+
       //do the same as above but for the part of state that has all of the product info (not just ID)
       productComparison.splice(0, 1);
       productComparison.push(value);
@@ -167,7 +167,6 @@ export default function Application(props) {
 
         comparison: {
           ...comparison,
-          // product_ids: addId,
           comparison,
           productComparison,
         },
@@ -199,13 +198,10 @@ export default function Application(props) {
         // console.log(all);
 
         const [first, second, third] = all;
-        // console.log(fourth.data);
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
-        // console.log('comparison data', comparison)
-        // console.log('productcomparison data', productComparison)
         const searchArray = createSearchlist(featuretypes);
         // const searchArray = originalsearchArray.slice(0, 10);
         setState((prev) => ({
@@ -279,6 +275,7 @@ export default function Application(props) {
     setState((prev) => ({ ...prev, comparison, productComparison }));
   };
 
+  //maps the comparison state in order to render comparisons in bubbles
   const compareArrayMapped = state.productComparison.map(
     (comparison_id, index) => {
       let comparison = state.comparison;
@@ -309,6 +306,7 @@ export default function Application(props) {
 
   const history = useHistory();
 
+  //set mode to compare and render comparison page
   const handleClick = (mode = "COMPARE") => {
     // console.log('CLICKED');
     console.log("selected product ids", selectedProductIDs);
@@ -346,6 +344,7 @@ export default function Application(props) {
     }));
   };
 
+  //similar to handle select but specifically for toggling on drag
   const handleToggle = (add, id, value) => {
     const comparison = state.comparison;
     const productComparison = state.productComparison;

@@ -3,43 +3,23 @@ import "./Product.css";
 
 export default function Product(props) {
   const [selected, setSelected] = useState(false);
-  
-//trying to toggle select on drag
-  // const handleEvent = (event) => {
-  //   console.log('des props', props.toggle)
-  //   if (event.type === "mouseup") {
-      
-    
-  //     if (props.toggle === props.id) {
-  //       setSelected(true)
-  //     }
-  //      } 
-  //  }
-  
-  
+
+//use effect is triggered when the selected IDs change, in order to toggle selected on drag  
   useEffect(() => {
     
-    
-    
       if(!selected) {
+        //the selected product array must include this specific ID to trigger changes
         if (props.selected.includes(props.id)) {
-          console.log(props.selected)
-          console.log('props staet', props.state)
           setSelected(true);
           props.handleSelect(true, props.id, props);
-          console.log(props.id)
           document.getElementById(`heart${props.id}`).style.color = "red";
         }
-       
       } 
+      //for unselecting toggle
       if (!props.selected.includes(props.id)) {
-        console.log('ive been activated')
         setSelected(false)
         document.getElementById(`heart${props.id}`).style.color = "#989898";
       }
-      
-    
-    // Side-effect!
   }, [props.selected]);
   
 
