@@ -22,6 +22,10 @@ body {
 }
 .lists {
   display: flex;
+  margin-left: 1em;
+}
+.ul {
+  
 }
 
 .footer {
