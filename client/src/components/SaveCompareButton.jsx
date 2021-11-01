@@ -6,6 +6,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import "./Product.css";
 // import sendComparison from "../helper/button-functions";
 import { useSave } from "../hooks/useSave";
+
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });

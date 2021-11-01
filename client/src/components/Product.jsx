@@ -31,7 +31,7 @@ export default function Product(props) {
       props.removeProdIDs(props.id);
       props.handleToggle(false, props.id, props);
     } else {
-      console.log('i am also being toggeled :(')
+      
       props.addProdIDs(props.id);
       setSelected(true);
       document.getElementById(`heart${props.id}`).style.color = "red";

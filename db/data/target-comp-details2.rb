@@ -6,7 +6,7 @@ electronics.each do |product|
     name: product["data"]["product"]["item"]["product_description"]["title"], 
     description: product["data"]["product"]["item"]["product_description"]["bullet_descriptions"].to_s, 
     image: product["data"]["product"]["item"]["enrichment"]["images"]["primary_image_url"], 
-    price_cents: product["data"]["product"]["price"]["current_retail_max"], 
+    price_cents: product["data"]["product"]["price"]["current_retail"], 
     rating: product["data"]["product"]["ratings_and_reviews"]["statistics"]["rating"]["average"], 
     sale: product["data"]["product"]["price"]["formatted_current_price_type"] === "sale", 
     url: product["data"]["product"]["item"]["enrichment"]["buy_url"],
@@ -18,7 +18,7 @@ end
 
 
 
-#puts @target_electronics
+puts @target_electronics[0]
 
 @target_electronics_features = []
 electronics.each do |product|
@@ -114,6 +114,6 @@ i = 129
   @target_elec_array.push(target_elec_object)
 end
 
-puts @target_elec_array
+#puts @target_elec_array[0]
 
 #has bullet descriptions/classification

@@ -66,12 +66,12 @@ export default function Application(props) {
     if (selectedProductIDs.length >= 3) {
       const IDs = selectedProductIDs;
       IDs.splice(0, 1);
-      console.log("i am the selected ids in the add func", IDs);
+      // console.log("i am the selected ids in the add func", IDs);
       setSelectedProductIDs([...IDs, id]);
     } else {
       setSelectedProductIDs((prev) => {
         // console.log('add_ID', id);
-        console.log("selectedIds", [...prev, id]);
+        // console.log("selectedIds", [...prev, id]);
         return [...prev, id];
       });
     }
@@ -351,7 +351,7 @@ export default function Application(props) {
     if (add) {
       productComparison.splice(0, 1);
       productComparison.push(value);
-      console.log(productComparison);
+      // console.log(productComparison);
     } else {
       for (const product of productComparison) {
         if (product.id === id) {
