@@ -3,6 +3,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Divider from "@material-ui/core/Divider";
+import Box from "@material-ui/core/Box";
+
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -25,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
   },
-  card: {
+  fullHeightCard: {
+    height: "100%",
     transition: "transform 0.15s ease-in-out",
     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-    height: "100%",
   },
   media: {
     height: 0,
@@ -83,43 +85,40 @@ export default function Comparison(props) {
   const createProductTable = products.map((product) => {
     return (
       <Grid item xs={12} sm={6} md={3} key={product.id}>
-        <Card className={classes.card}>
+        <Card className={classes.fullHeightCard}>
           <CardMedia className={classes.media} image={product.image} />
           <CardHeader
             titleTypographyProps={{ variant: "headline" }}
             title={product.name}
           />
-          <CardContent>
-            <Typography variant="body2" gutterBottom>
+          <CardContent display="flex" justify="space-between">
+            <Typography variant="body1">
               <Rating
                 name="read-only"
                 value={parseInt(product.rating)}
                 readOnly
               />
             </Typography>
-            <Divider light />
-            <List>
-              {prodFeatureNames.map((featurename, subindex) => {
-                if (prodComparison2[product.id][featurename]) {
-                  return (
-                    <ListItem key={subindex} alignItems="flex-start">
-                      <ListItemIcon>
-                        <AddCircleOutlineIcon
-                          fontSize="small"
-                          color="primary"
+            {/* <Divider light /> */}
+            <Grid container justify="space-between">
+              <List disablePadding>
+                {prodFeatureNames.map((featurename, subindex) => {
+                  if (prodComparison2[product.id][featurename]) {
+                    return (
+                      <ListItem key={subindex} alignItems="flex-start">
+                        <ListItemText
+                          primary={`${featurename} : 
+                          ${prodComparison2[product.id][featurename]}`}
                         />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={`${featurename} : ${
-                          prodComparison2[product.id][featurename]
-                        }`}
-                      />
-                    </ListItem>
-                  );
-                }
-              })}
-            </List>
+                      </ListItem>
+                    );
+                  }
+                })}
+              </List>
+            </Grid>
+
             <Divider light />
+
             <Grid container justify="space-between">
               <Typography variant="body2" align="left">
                 {`$${product.price_cents}`}
@@ -151,13 +150,7 @@ export default function Comparison(props) {
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        spacing={2}
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
+      <Grid container spacing={2} direction="row" justify="center">
         {createProductTable}
       </Grid>
     </div>
