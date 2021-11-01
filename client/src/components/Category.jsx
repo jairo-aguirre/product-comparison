@@ -1,11 +1,6 @@
 import DeleteButton from "./DeleteButton";
 import CompareButton from "./CompareButton";
-import {
-  Grid,
-  Tab,
-  Tabs,
-  AppBar
-} from "@material-ui/core/";
+import { Grid, Tab, Tabs, AppBar } from "@material-ui/core/";
 
 export default function Category(props) {
   const categoryArray = props.categories.map((category, index) => {
@@ -29,7 +24,7 @@ export default function Category(props) {
       >
         <Grid item xs={11}>
           <Tabs
-            value={props.catSelected}
+            value={props.mode !== "cat" ? false : props.catSelected}
             onChange={(e, value) => props.handleChange(value)}
             indicatorColor="primary"
             textColor="primary"
