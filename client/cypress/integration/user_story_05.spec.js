@@ -1,6 +1,6 @@
 // User can log in and save their comparisons
 
-describe('test_case_04', () => {
+describe('test_case_05', () => {
   beforeEach(() => {
     cy.visit('/');
   });
