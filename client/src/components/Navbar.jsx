@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  marginLeft: theme.spacing(2),
 }));
 export default function Navbar(props) {
   const classes = useStyles();
@@ -29,17 +30,22 @@ export default function Navbar(props) {
           <LocalOfferIcon fontSize="large" />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          PriceCompare
+          ProductCompare
         </Typography>
-
+        <SearchIcon />
         <Search
           searchList={props.searchList}
           searchSelected={props.searchSelected}
           updateSearch={props.updateSearch}
+          mode={props.mode}
         />
-        <SearchIcon />
+
         {!props.login.status && (
-          <Button color="inherit" onClick={props.getUser}>
+          <Button
+            className={classes.marginLeft}
+            color="inherit"
+            onClick={props.getUser}
+          >
             Login
           </Button>
         )}
@@ -47,7 +53,11 @@ export default function Navbar(props) {
           <Typography variant="body2">{props.login.user.first_name}</Typography>
         )}
         {props.login.status && (
-          <Button color="inherit" onClick={props.logOut}>
+          <Button
+            className={classes.marginLeft}
+            color="inherit"
+            onClick={props.logOut}
+          >
             Logout
           </Button>
         )}

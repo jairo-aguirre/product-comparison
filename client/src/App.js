@@ -35,7 +35,7 @@ export default function Application(props) {
     categories: [],
     searchArray: [],
     features: [],
-    searchValue: "",
+    searchSelected: "",
     catSelected: 1,
     selected: 1,
     comparison: comparison,
@@ -63,7 +63,7 @@ export default function Application(props) {
     if (selectedProductIDs.length >= 3) {
       const IDs = selectedProductIDs;
       IDs.splice(0, 1);
-      console.log('i am the selected ids in the add func', IDs)
+      console.log("i am the selected ids in the add func", IDs);
       setSelectedProductIDs([...IDs, id]);
     } else {
       setSelectedProductIDs((prev) => {
@@ -72,8 +72,6 @@ export default function Application(props) {
         return [...prev, id];
       });
     }
-
-    
   };
 
   //remove product ids upon unselect
@@ -275,9 +273,9 @@ export default function Application(props) {
       { id: 2, name: "compare here" },
       { id: 3, name: "compare here" },
     ];
-    let IDs = selectedProductIDs
-    IDs = []
-    setSelectedProductIDs([...IDs])
+    let IDs = selectedProductIDs;
+    IDs = [];
+    setSelectedProductIDs([...IDs]);
     setState((prev) => ({ ...prev, comparison, productComparison }));
   };
 
@@ -335,9 +333,6 @@ export default function Application(props) {
         }
       }
     }
-      
-    
-    
 
     setState((prev) => ({
       ...prev,
@@ -357,7 +352,7 @@ export default function Application(props) {
     if (add) {
       productComparison.splice(0, 1);
       productComparison.push(value);
-      console.log(productComparison)
+      console.log(productComparison);
     } else {
       for (const product of productComparison) {
         if (product.id === id) {
@@ -366,7 +361,6 @@ export default function Application(props) {
         }
       }
     }
-    
 
     setState((prev) => ({
       ...prev,
@@ -391,6 +385,7 @@ export default function Application(props) {
           getUser={getUser}
           login={login}
           logOut={logOut}
+          mode={state.mode}
         />
         <Category
           categories={state.categories}
@@ -400,6 +395,7 @@ export default function Application(props) {
           features={state.features}
           handleClick={handleClick}
           onClick={onDelete}
+          mode={state.mode}
         ></Category>
       </div>
       {state.mode === COMPARE && (

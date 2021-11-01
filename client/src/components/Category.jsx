@@ -24,7 +24,7 @@ export default function Category(props) {
       >
         <Grid item xs={10}>
           <Tabs
-            value={props.catSelected}
+            value={props.mode !== "cat" ? false : props.catSelected}
             onChange={(e, value) => props.handleChange(value)}
             indicatorColor="primary"
             textColor="primary"
@@ -40,7 +40,7 @@ export default function Category(props) {
             container
             spacing={2}
             direction="row"
-            justify="flex-end"
+            justify="flex-start"
             alignItems="center"
           >
             <CompareButton
