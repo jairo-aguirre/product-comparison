@@ -6,7 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import Search from "../components/Search";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  marginLeft: theme.spacing(2),
 }));
 export default function Navbar(props) {
   const classes = useStyles();
@@ -29,25 +31,36 @@ export default function Navbar(props) {
           <LocalOfferIcon fontSize="large" />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          PriceCompare
+          ProductCompare
         </Typography>
-
+        {/* <SearchIcon /> */}
         <Search
           searchList={props.searchList}
           searchSelected={props.searchSelected}
           updateSearch={props.updateSearch}
+          mode={props.mode}
         />
-        <SearchIcon />
+
         {!props.login.status && (
-          <Button color="inherit" onClick={props.getUser}>
+          <Button
+            className={classes.marginLeft}
+            color="inherit"
+            onClick={props.getUser}
+          >
             Login
           </Button>
         )}
         {props.login.status && (
-          <Typography variant="body2">{props.login.user.first_name}</Typography>
+          <Button variant="body2" color="inherit">
+            <AccountCircleIcon /> {props.login.user.first_name}
+          </Button>
         )}
         {props.login.status && (
-          <Button color="inherit" onClick={props.logOut}>
+          <Button
+            className={classes.marginLeft}
+            color="inherit"
+            onClick={props.logOut}
+          >
             Logout
           </Button>
         )}

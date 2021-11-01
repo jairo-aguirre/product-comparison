@@ -1,11 +1,6 @@
 import DeleteButton from "./DeleteButton";
 import CompareButton from "./CompareButton";
-import {
-  Grid,
-  Tab,
-  Tabs,
-  AppBar
-} from "@material-ui/core/";
+import { Grid, Tab, Tabs, AppBar } from "@material-ui/core/";
 
 export default function Category(props) {
   const categoryArray = props.categories.map((category, index) => {
@@ -27,9 +22,9 @@ export default function Category(props) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Tabs
-            value={props.catSelected}
+            value={props.mode !== "cat" ? false : props.catSelected}
             onChange={(e, value) => props.handleChange(value)}
             indicatorColor="primary"
             textColor="primary"
@@ -40,12 +35,12 @@ export default function Category(props) {
             {categoryArray}
           </Tabs>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           <Grid
             container
-            spacing={2}
+            // spacing={1}
             direction="row"
-            justify="flex-start"
+            justifyContent="space-around"
             alignItems="center"
           >
             <CompareButton
