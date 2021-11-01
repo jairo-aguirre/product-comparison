@@ -22,7 +22,7 @@ export default function Category(props) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Tabs
             value={props.mode !== "cat" ? false : props.catSelected}
             onChange={(e, value) => props.handleChange(value)}
@@ -35,12 +35,12 @@ export default function Category(props) {
             {categoryArray}
           </Tabs>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           <Grid
             container
-            spacing={2}
+            // spacing={1}
             direction="row"
-            justify="flex-start"
+            justifyContent="space-around"
             alignItems="center"
           >
             <CompareButton

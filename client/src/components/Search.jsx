@@ -22,8 +22,8 @@ export default function Search(props) {
         <TextField
           {...params}
           variant="outlined"
-          label="Search.."
-          // placeholder="Search.."
+          // label="Search.."
+          placeholder="Search.."
           size="small"
           color="secondary"
           fullWidth
