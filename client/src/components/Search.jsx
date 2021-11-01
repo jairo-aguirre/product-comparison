@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-
 import Autocomplete from "@material-ui/lab/Autocomplete";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +23,7 @@ export default function Search(props) {
           {...params}
           variant="outlined"
           label="Search.."
-          placeholder="Search.."
+          // placeholder="Search.."
           size="small"
           color="secondary"
           fullWidth

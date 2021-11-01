@@ -6,7 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import Search from "../components/Search";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -32,7 +33,7 @@ export default function Navbar(props) {
         <Typography variant="h6" className={classes.title}>
           ProductCompare
         </Typography>
-        <SearchIcon />
+        {/* <SearchIcon /> */}
         <Search
           searchList={props.searchList}
           searchSelected={props.searchSelected}
@@ -50,7 +51,9 @@ export default function Navbar(props) {
           </Button>
         )}
         {props.login.status && (
-          <Typography variant="body2">{props.login.user.first_name}</Typography>
+          <Button variant="body2" color="inherit">
+            <AccountCircleIcon /> {props.login.user.first_name}
+          </Button>
         )}
         {props.login.status && (
           <Button
