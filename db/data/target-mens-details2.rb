@@ -92,7 +92,47 @@ i = 153
     end
     if attribute["name"] == "Garment sleeve length type"
       values = attribute["values"][0]
-      target_elec_object["sleeveLength"] = (values["name"] == "Machine Wash")
+      target_elec_object["sleeveLength"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment Fit"
+      values = attribute["values"][0]
+      target_elec_object["Fit"] = values["name"]
+    
+    end
+    if attribute["name"] == "Number of Pockets"
+      values = attribute["values"][0]
+      target_elec_object["Pockets"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment closure type, tops"
+      values = attribute["values"][0]
+      target_elec_object["Closures"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment torso length"
+      values = attribute["values"][0]
+      target_elec_object["TorsoLength"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment collar type"
+      values = attribute["values"][0]
+      target_elec_object["Collar"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment lapel design"
+      values = attribute["values"][0]
+      target_elec_object["Lapel"] = values["name"]
+    
+    end
+    if attribute["name"] == "Apparel lining material 1"
+      values = attribute["values"][0]
+      target_elec_object["LiningMaterial"] = values["name"]
+    
+    end
+    if attribute["name"] == "Garment cuff type"
+      values = attribute["values"][0]
+      target_elec_object["Cuff"] = values["name"]
     
     end
 

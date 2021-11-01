@@ -21,6 +21,14 @@ class CreateFeatures < ActiveRecord::Migration[6.1]
       t.string :operatingSystem
       t.string :resolution
       t.string :fabric
+      t.string :Fit
+      t.string :Pockets
+      t.string :Closures
+      t.string :TorsoLength
+      t.string :Collar
+      t.string :Lapel
+      t.string :LiningMaterial
+      t.string :Cuff
      
       
       

@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(version: 2021_10_24_032421) do
     t.string "operatingSystem"
     t.string "resolution"
     t.string "fabric"
+    t.string "Fit"
+    t.string "Pockets"
+    t.string "Closures"
+    t.string "TorsoLength"
+    t.string "Collar"
+    t.string "Lapel"
+    t.string "LiningMaterial"
+    t.string "Cuff"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["product_id"], name: "index_features_on_product_id"

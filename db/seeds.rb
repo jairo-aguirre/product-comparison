@@ -226,7 +226,15 @@ end
     material1: product["material1"],
     material2: product["material2"],
     material3: product["material3"],
-    material4: product["material4"]
+    material4: product["material4"],
+    Fit: product["Fit"],
+    Pockets: product["Pockets"],
+    Closures: product["Closures"],
+    TorsoLength: product["TorsoLength"],
+    Collar: product["Collar"],
+    Lapel: product["Lapel"],
+    LiningMaterial: product["LiningMaterial"],
+    Cuff: product["Cuff"]
   )
 end
 
