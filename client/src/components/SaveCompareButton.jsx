@@ -16,7 +16,7 @@ export default function SaveCompareButton(props) {
   let alert = "success";
   if (props.productsIDs.length <= 1) {
     message = "Please choose  products to compare!";
-    alert = "error";
+    alert = "warning";
   }
 
   return (
