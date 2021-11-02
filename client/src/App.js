@@ -19,6 +19,31 @@ const COMPARE = "COMPARE";
 const CAT = "cat";
 let dataArray = {};
 
+const sendComparisonCookie = (products) => {
+  const formUrlEncoded = (x) => {
+    return Object.keys(x).reduce(
+      (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+      ""
+    );
+  };
+  
+    const data = {
+      
+      product_ids: products,
+    };
+  
+    axios
+      .put("/api/comparisons/1", formUrlEncoded(data))
+      .then((data) => {
+       
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  
+  
+};
+
 //declare first state for comparison
 let comparison = {
   id: 1,
@@ -67,14 +92,19 @@ export default function Application(props) {
       const IDs = selectedProductIDs;
       IDs.splice(0, 1);
       // console.log("i am the selected ids in the add func", IDs);
+      sendComparisonCookie([...IDs, id])
       setSelectedProductIDs([...IDs, id]);
+      
     } else {
       setSelectedProductIDs((prev) => {
         // console.log('add_ID', id);
         // console.log("selectedIds", [...prev, id]);
+        sendComparisonCookie([...prev, id])
         return [...prev, id];
       });
+      
     }
+    
   };
 
   //remove product ids upon unselect
@@ -192,17 +222,31 @@ export default function Application(props) {
     const URL1 = "/api/products";
     const URL2 = "/api/categories";
     const URL3 = "/api/features";
+    const URL4 = "/api/comparisons"
 
-    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3)]).then(
+    Promise.all([axios.get(URL1), axios.get(URL2), axios.get(URL3), axios.get(URL4)]).then(
       (all) => {
         // console.log(all);
 
-        const [first, second, third] = all;
+        const [first, second, third, fourth] = all;
         const products = first.data.products;
         const categories = second.data.categories;
         const features = third.data.features;
         const featuretypes = third.data.types;
         const searchArray = createSearchlist(featuretypes);
+        const productComparison = fourth.data.cookies
+        if (productComparison.length === 2) {
+          productComparison.unshift({ id: 1, name: "compare here" })
+        }
+        if (productComparison.length === 1) {
+          productComparison.unshift({ id: 1, name: "compare here" })
+          productComparison.unshift({ id: 1, name: "compare here" })
+        }
+        if (productComparison.length === 0) {
+          productComparison.push({ id: 1, name: "compare here" })
+          productComparison.push({ id: 1, name: "compare here" })
+          productComparison.push({ id: 1, name: "compare here" })
+        }
         // const searchArray = originalsearchArray.slice(0, 10);
         setState((prev) => ({
           ...prev,
@@ -210,6 +254,7 @@ export default function Application(props) {
           categories,
           features,
           searchArray,
+          productComparison
         }));
       }
     );
@@ -248,6 +293,7 @@ export default function Application(props) {
               handleSelect={handleSelect}
               selected={selectedProductIDs}
               handleToggle={handleToggle}
+              sendCookie={sendComparisonCookie}
             />
           </li>
         )}
@@ -273,6 +319,7 @@ export default function Application(props) {
     IDs = [];
     setSelectedProductIDs([...IDs]);
     setState((prev) => ({ ...prev, comparison, productComparison }));
+    sendComparisonCookie(IDs)
   };
 
   //maps the comparison state in order to render comparisons in bubbles
@@ -310,7 +357,7 @@ export default function Application(props) {
   const handleClick = (mode = "COMPARE") => {
     // console.log('CLICKED');
     console.log("selected product ids", selectedProductIDs);
-
+    
     sendFeatures(selectedProductIDs);
   };
 
@@ -331,6 +378,7 @@ export default function Application(props) {
         }
       }
     }
+    sendComparisonCookie(selectedProductIDs)
 
     setState((prev) => ({
       ...prev,
@@ -360,7 +408,7 @@ export default function Application(props) {
         }
       }
     }
-
+    
     setState((prev) => ({
       ...prev,
 
@@ -371,6 +419,7 @@ export default function Application(props) {
         productComparison,
       },
     }));
+    
   };
 
   return (

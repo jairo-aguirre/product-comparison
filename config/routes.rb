@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :show]
   resources :categories, only: [:index]
   resources :features, only: [:index, :create]
-  resources :comparisons, only: [:index, :create]
+  resources :comparisons, only: [:index, :create, :update]
 
   get 'comparisons/index'
 

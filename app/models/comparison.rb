@@ -1,3 +1,5 @@
 class Comparison < ApplicationRecord
+
+  
  
 end

@@ -15,6 +15,7 @@ def create
   puts 'features'
   puts @features
   
+  
   @products = Product.find(@array)
   render :json => {
     features: @features,

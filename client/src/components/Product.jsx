@@ -30,12 +30,14 @@ export default function Product(props) {
       document.getElementById(`heart${props.id}`).style.color = "#989898";
       props.removeProdIDs(props.id);
       props.handleToggle(false, props.id, props);
+      
     } else {
       
       props.addProdIDs(props.id);
       setSelected(true);
       document.getElementById(`heart${props.id}`).style.color = "red";
       props.handleToggle(true, props.id, props);
+      
     }
   };
 
