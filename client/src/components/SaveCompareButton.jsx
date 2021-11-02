@@ -12,6 +12,13 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 export default function SaveCompareButton(props) {
   const { open, sendComparison, handleClose } = useSave();
+  let message = `Hi ${props.login.user.first_name},your comparisons are saved for future `;
+  let alert = "success";
+  if (props.productsIDs.length <= 1) {
+    message = "Please choose  products to compare!";
+    alert = "warning";
+  }
+
   return (
     props.login.status && (
       <div className="savecompareButton">
@@ -30,12 +37,8 @@ export default function SaveCompareButton(props) {
           autoHideDuration={6000}
           onClose={handleClose}
         >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {`Hi ${props.login.user.first_name} your comparisons are saved for future`}
+          <Alert onClose={handleClose} severity={alert} sx={{ width: "100%" }}>
+            {message}
           </Alert>
         </Snackbar>
       </div>
