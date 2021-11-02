@@ -47,8 +47,9 @@ body {
 }
 .compare {
   border-radius: 15px;
-  background-color: #0080f0;
-  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
+
 
   display: flex;
   align-items: center;
