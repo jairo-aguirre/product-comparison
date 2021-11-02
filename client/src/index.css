@@ -17,10 +17,10 @@ code {
   padding: 0;
 }
 body {
-  background-color: #dfe7ef;
-  margin-bottom: 15rem;
-  background-color: #adcbf0;
+  background-color: #2b73f0;
   background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+  
+  
 }
 .lists {
   display: flex;
@@ -47,6 +47,8 @@ body {
 }
 .compare {
   border-radius: 15px;
+  background-color: #0080f0;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
 
   display: flex;
   align-items: center;
