@@ -64,14 +64,23 @@ export default function Comparison(props) {
   const dontCompare = ["id", "product_id", "created_at", "updated_at"];
 
   for (const [key, value] of Object.entries(prodFeatures)) {
+   console.log(prodFeatures[0])
+   console.log(key)
+    
     for (const [key1, value1] of Object.entries(value)) {
+      console.log(key1, value1)
+      console.log(prodFeatures[0][key1])
+      
+      
       if (key1 === "product_id") {
         if (!prodComparison2[value1]) {
           prodID = value1;
           prodComparison2[value1] = {};
         }
       }
+      
       if (!dontCompare.includes(key1)) {
+        
         prodComparison2[prodID][key1] = value1;
         if (!prodFeatureNames.includes(key1)) {
           prodFeatureNames.push(key1);
@@ -79,6 +88,7 @@ export default function Comparison(props) {
       }
     }
   }
+  
 
   console.log("prodComparison2", prodComparison2);
   console.log("prodFeatureNames", prodFeatureNames);
@@ -103,6 +113,7 @@ export default function Comparison(props) {
             <Grid container justify="space-between">
               <List disablePadding>
                 {prodFeatureNames.map((featurename, subindex) => {
+                  
                   if (prodComparison2[product.id][featurename]) {
                     return (
                       <ListItem key={subindex} alignItems="flex-start">

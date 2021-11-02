@@ -18,8 +18,8 @@ export function useSave() {
         ""
       );
     };
-
-    const data = {
+    if (products.length > 1) {
+  const data = {
       user_id: user.id || 1,
       // product_ids: products.toString()
       product_ids: products,
@@ -35,6 +35,8 @@ export function useSave() {
         console.log("error", error);
       });
   };
+  
+    }
   return {
     open,
     sendComparison,

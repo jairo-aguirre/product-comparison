@@ -19,14 +19,14 @@ code {
 body {
   background-color: #dfe7ef;
   margin-bottom: 15rem;
+  background-color: #adcbf0;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
 }
 .lists {
   display: flex;
   margin-left: 1em;
 }
-.ul {
-  
-}
+
 
 .footer {
   margin-top: 1rem;
