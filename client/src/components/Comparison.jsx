@@ -61,6 +61,7 @@ export default function Comparison(props) {
   const prodComparison2 = {};
   let prodFeatureNames = [];
   let prodID = 0;
+  let prodFeatureFixed = []
   const dontCompare = ["id", "product_id", "created_at", "updated_at"];
 
   for (const [key, value] of Object.entries(prodFeatures)) {
@@ -83,7 +84,61 @@ export default function Comparison(props) {
         
         prodComparison2[prodID][key1] = value1;
         if (!prodFeatureNames.includes(key1)) {
-          prodFeatureNames.push(key1);
+          prodFeatureNames.push(key1)
+          if (key1 === "season") {
+            prodFeatureFixed.push("Season");
+          }
+          if (key1 === "material1") {
+            prodFeatureFixed.push("First Material");
+          }
+          if (key1 === "material2") {
+            prodFeatureFixed.push("Second Material");
+          }
+          if (key1 === "material3") {
+            prodFeatureFixed.push("Third Material");
+          }
+          if (key1 === "material4") {
+            prodFeatureFixed.push("Fourth Material");
+          }
+          if (key1 === "sleeveLength") {
+            prodFeatureFixed.push("Sleeve Length");
+          }
+          if (key1 === "where") {
+            prodFeatureFixed.push("Intended Use");
+          }
+          if (key1 === "typeOf") {
+            prodFeatureFixed.push("Subcategory");
+          }
+          if (key1 === "pattern") {
+            prodFeatureFixed.push("Pattern");
+          }
+          if (key1 === "brand") {
+            prodFeatureFixed.push("Brand");
+          }
+          if (key1 === "screenSize") {
+            prodFeatureFixed.push("Screen Size");
+          }
+          if (key1 === "weight") {
+            prodFeatureFixed.push("Weight");
+          }
+          if (key1 === "RAM") {
+            prodFeatureFixed.push("RAM");
+          }
+          if (key1 === "storage") {
+            prodFeatureFixed.push("Storage");
+          }
+          if (key1 === "operatingSystem") {
+            prodFeatureFixed.push("Operating System");
+          }
+          if (key1 === "resolution") {
+            prodFeatureFixed.push("Resolution");
+          }
+          if (key1 === "fabric") {
+            prodFeatureFixed.push("Fabric");
+          }
+          if (key1 === "RAM") {
+            prodFeatureFixed.push("RAM");
+          }
         }
       }
     }
