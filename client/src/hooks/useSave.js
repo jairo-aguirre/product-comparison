@@ -19,6 +19,7 @@ export function useSave() {
       );
     };
     if (products.length > 1) {
+
       const data = {
         user_id: user.id || 1,
         // product_ids: products.toString()
@@ -37,7 +38,10 @@ export function useSave() {
     } else {
       setOpen(true);
     }
-  };
+
+  
+  
+    }
   return {
     open,
     sendComparison,

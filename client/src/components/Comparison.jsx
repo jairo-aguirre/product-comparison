@@ -59,8 +59,14 @@ export default function Comparison(props) {
   let prodID = 0;
   const dontCompare = ["id", "product_id", "created_at", "updated_at"];
 
-  for (const [value] of Object.entries(prodFeatures)) {
+  for (const [key, value] of Object.entries(prodFeatures)) {
+    console.log(prodFeatures[0]);
+    console.log(key);
+
     for (const [key1, value1] of Object.entries(value)) {
+      console.log(key1, value1);
+      console.log(prodFeatures[0][key1]);
+
       if (key1 === "product_id") {
         if (!prodComparison2[value1]) {
           prodID = value1;

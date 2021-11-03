@@ -55,12 +55,17 @@ export default function Landing(props) {
       <div className={classes.root}>
         <Grid
           container
-          direction="row"
+          direction="column"
           justifyContent="center"
-          alignItems="flex-start"
           color="primary"
         >
-          <Typography variant="h3" color="primary">
+          <Typography variant="h3" color="primary" align="center">
+            ProductCompare
+          </Typography>
+          <Typography variant="h5" color="secondary" align="center">
+            Compare online store Ratings and Prices!
+          </Typography>
+          <Typography variant="h4" color="primary" align="left">
             Featured Items
           </Typography>
         </Grid>
