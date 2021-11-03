@@ -4,6 +4,7 @@ import ImageList from "@material-ui/core/ImageList";
 import ImageListItem from "@material-ui/core/ImageListItem";
 import ImageListItemBar from "@material-ui/core/ImageListItemBar";
 import { Grid, Typography } from "@material-ui/core/";
+import './Landing.css'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     overflow: "hidden",
     backgroundColor: "transparent",
-    height: "600px",
+    height: "800px",
   },
   imageList: {
     flexWrap: "nowrap",
@@ -59,13 +60,29 @@ export default function Landing(props) {
           justifyContent="center"
           color="primary"
         >
+          <div className="landing-title">
           <Typography variant="h3" color="primary" align="center">
             Welcome to ProductCompare
           </Typography>
+          </div>
+          <div className="web-features">
+            <div className="feature-data">
           <Typography variant="h5" color="secondary" align="center">
-            Compare online store Ratings and Prices!
+            Compare products from multiple online platforms
           </Typography>
-          <Typography variant="h4" color="primary" align="left">
+          </div>
+          <div className="feature-data">
+          <Typography variant="h5" color="secondary" align="center">
+            See product attributes side by side
+          </Typography>
+          </div>
+          <div className="feature-data">
+          <Typography variant="h5" color="secondary" align="center">
+            Save your comparisons for later
+          </Typography>
+          </div>
+          </div>
+          <Typography className="feature-title" variant="h4" color="primary" align="left">
             Featured Items
           </Typography>
         </Grid>

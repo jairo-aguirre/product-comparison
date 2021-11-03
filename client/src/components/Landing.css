@@ -1,0 +1,47 @@
+.landing-title{
+  border-radius: 15px;
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
+
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
+  border-radius: 15px;
+  width: auto;
+  flex-direction: column;
+
+  margin: 2rem;
+  transition: transform 0.2s;
+  
+}
+
+.web-features{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: auto;
+  
+}
+
+.feature-data{
+  border-radius: 15px;
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
+  margin: 1rem;
+  width: 20rem;
+  padding: 1rem;
+}
+
+.feature-title{
+  border-radius: 15px;
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
+  margin: 2rem;
+  width: 15rem;
+  padding: 1rem;
+
+}
