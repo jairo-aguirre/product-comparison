@@ -3,15 +3,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Divider from "@material-ui/core/Divider";
-import Box from "@material-ui/core/Box";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { red } from "@material-ui/core/colors";
 import {
   Grid,
@@ -63,7 +59,7 @@ export default function Comparison(props) {
   let prodID = 0;
   const dontCompare = ["id", "product_id", "created_at", "updated_at"];
 
-  for (const [key, value] of Object.entries(prodFeatures)) {
+  for (const [value] of Object.entries(prodFeatures)) {
     for (const [key1, value1] of Object.entries(value)) {
       if (key1 === "product_id") {
         if (!prodComparison2[value1]) {
@@ -71,7 +67,7 @@ export default function Comparison(props) {
           prodComparison2[value1] = {};
         }
       }
-      if (!dontCompare.includes(key1)) {
+      if (prodComparison2[prodID] && !dontCompare.includes(key1)) {
         prodComparison2[prodID][key1] = value1;
         if (!prodFeatureNames.includes(key1)) {
           prodFeatureNames.push(key1);
@@ -103,7 +99,10 @@ export default function Comparison(props) {
             <Grid container justify="space-between">
               <List disablePadding>
                 {prodFeatureNames.map((featurename, subindex) => {
-                  if (prodComparison2[product.id][featurename]) {
+                  if (
+                    prodComparison2[product.id] &&
+                    prodComparison2[product.id][featurename]
+                  ) {
                     return (
                       <ListItem key={subindex} alignItems="flex-start">
                         <ListItemText
@@ -113,6 +112,7 @@ export default function Comparison(props) {
                       </ListItem>
                     );
                   }
+                  return;
                 })}
               </List>
             </Grid>

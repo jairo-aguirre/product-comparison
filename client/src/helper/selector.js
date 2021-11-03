@@ -22,8 +22,17 @@ export function getProducts(newstate) {
       );
     }
   }
+  if (newstate.mode === "DEFAULT") {
+    const productCategoryArray = products.filter(
+      (product) => Math.round(product.rating) >= 3
+    );
+    if (productCategoryArray.length > 0) {
+      return productCategoryArray.slice(10, 40);
+    }
+  }
   return [];
 }
+
 export function createSearchlist(featuretypes) {
   const searcharray = featuretypes.map((feature) => ({
     name: feature.typeOf ?? "RANDOM",

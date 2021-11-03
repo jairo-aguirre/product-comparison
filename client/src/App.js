@@ -6,6 +6,8 @@ import { useLogin } from "./hooks/useLogin";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
+import Landing from "./components/Landing";
+
 import CompBubbleElement from "./components/CompBubbleElement";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
@@ -17,6 +19,7 @@ import SaveCompareButton from "./components/SaveCompareButton";
 //set constants for modes
 const COMPARE = "COMPARE";
 const CAT = "cat";
+const DEFAULT = "DEFAULT";
 let dataArray = {};
 
 //declare first state for comparison
@@ -38,10 +41,10 @@ export default function Application(props) {
     searchArray: [],
     features: [],
     searchSelected: "",
-    catSelected: 1,
+    catSelected: 0,
     selected: 1,
     comparison: comparison,
-    mode: CAT,
+    mode: DEFAULT,
     productComparison: productComparison,
   });
   const { login, getUser, logOut } = useLogin();
@@ -116,7 +119,6 @@ export default function Application(props) {
       })
       .then(() => {
         setState((prev) => ({ ...prev, mode: "COMPARE" }));
-       
       })
       .catch((error) => {
         //console.log("error", error);
@@ -126,7 +128,6 @@ export default function Application(props) {
   //registers drag end event
   const onDragEnd = (result) => {
     const { source, destination } = result;
-    
 
     // dropped outside the list or in product list
     if (
@@ -397,6 +398,11 @@ export default function Application(props) {
           mode={state.mode}
         ></Category>
       </div>
+      {state.mode === DEFAULT && (
+        <div>
+          <Landing tileData={firstset} />
+        </div>
+      )}
       {state.mode === COMPARE && (
         <div>
           <Box display="flex" justifyContent="space-between">
@@ -406,7 +412,8 @@ export default function Application(props) {
           <Comparison data={dataArray} />
         </div>
       )}
-      {state.mode !== "COMPARE" && (
+
+      {state.mode !== "COMPARE" && state.mode !== "DEFAULT" && (
         <div className="lists">
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
