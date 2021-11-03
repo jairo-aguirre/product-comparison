@@ -60,7 +60,7 @@ export default function Landing(props) {
           color="primary"
         >
           <Typography variant="h3" color="primary" align="center">
-            ProductCompare
+            Welcome to ProductCompare
           </Typography>
           <Typography variant="h5" color="secondary" align="center">
             Compare online store Ratings and Prices!
