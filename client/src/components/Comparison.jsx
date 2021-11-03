@@ -88,6 +88,9 @@ export default function Comparison(props) {
           if (key1 === "season") {
             prodFeatureFixed.push("Season");
           }
+          if (key1 === "material") {
+            prodFeatureFixed.push("Main Material");
+          }
           if (key1 === "material1") {
             prodFeatureFixed.push("First Material");
           }
