@@ -136,15 +136,38 @@ export default function Comparison(props) {
           if (key1 === "fabric") {
             prodFeatureFixed.push("Fabric");
           }
-          if (key1 === "RAM") {
-            prodFeatureFixed.push("RAM");
+          if (key1 === "Fit") {
+            prodFeatureFixed.push("Fit");
+          }
+          if (key1 === "Pockets") {
+            prodFeatureFixed.push("Pockets");
+          }
+          if (key1 === "Closures") {
+            prodFeatureFixed.push("Closures");
+          }
+          if (key1 === "TorsoLength") {
+            prodFeatureFixed.push("Torso Length");
+          }
+          if (key1 === "Collar") {
+            prodFeatureFixed.push("Collar");
+          }
+          if (key1 === "Lapel") {
+            prodFeatureFixed.push("Lapel");
+          }
+          if (key1 === "LiningMaterial") {
+            prodFeatureFixed.push("Lining Material");
+          }
+          if (key1 === "Cuff") {
+            prodFeatureFixed.push("Cuff");
           }
         }
       }
     }
   }
-  
 
+  
+  
+  
   console.log("prodComparison2", prodComparison2);
   console.log("prodFeatureNames", prodFeatureNames);
   const createProductTable = products.map((product) => {
@@ -167,18 +190,22 @@ export default function Comparison(props) {
             {/* <Divider light /> */}
             <Grid container justify="space-between">
               <List disablePadding>
-                {prodFeatureNames.map((featurename, subindex) => {
+                {
+                prodFeatureNames.map((featurename, subindex) => {
+                  console.log(subindex)
                   
                   if (prodComparison2[product.id][featurename]) {
                     return (
                       <ListItem key={subindex} alignItems="flex-start">
                         <ListItemText
-                          primary={`${featurename} : 
+                          primary={`${prodFeatureFixed[subindex]} : 
                           ${prodComparison2[product.id][featurename]}`}
                         />
                       </ListItem>
                     );
+                    
                   }
+                  
                 })}
               </List>
             </Grid>
