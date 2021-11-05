@@ -4,7 +4,7 @@ class Api::ComparisonsController < ApplicationController
       @comparisons = Comparison.first
       @compareProducts = []
       @comparisons[:product_ids].each do |id|
-        puts id
+        
         @fullProduct = Product.find_by(id: id)
         @compareProducts.push(@fullProduct)
         
@@ -32,7 +32,6 @@ class Api::ComparisonsController < ApplicationController
     end
   
     def create
-      puts "comp params"
 
       @array = comparison_params[:product_ids].split(",")
 
