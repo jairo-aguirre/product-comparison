@@ -19,7 +19,7 @@ A single page web app that helps users to online shop and compare products from 
 
 
 
-
+## Dependencies
 
 Things you may want to cover:
 
