@@ -17,26 +17,27 @@ A single page web app that helps users to online shop and compare products from 
 
 ## Tech Stack
 
-
+* Ruby
+* Ruby on Rails
+* ReactJS
+* PostgreSQL
 
 ## Dependencies
 
-Things you may want to cover:
+* Webpacker
+* Material-UI
+* Axios
+* jest-dom
+* React
+* React Beautiful DnD
+* React-DOM
+* React-router-DOM
+* React-scripts
+* Web-vitals
 
-* Ruby version
+## APIS
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Amazon
+* Magic Ali Express
+* ASOS
+* Target
